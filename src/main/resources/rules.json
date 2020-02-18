@@ -1,0 +1,28 @@
+{
+  "001": [
+    {
+      "source": "hrid",
+      "fields": ["a"],
+      "translation": "some_function"
+    }
+  ],
+  "024": [
+    {
+      "source": "identifiers.identifierTypeId",
+      "fields": ["b"],
+      "translation": "some_function"
+    },
+    {
+      "source": "identifiers.identifierType",
+      "fields": ["c"],
+      "translation": "some_function"
+    }
+  ],
+  "035": [
+    {
+      "source": "identifiers.identifierTypeId",
+      "fields": ["d"],
+      "translation": "some_function"
+    }
+  ]
+}
