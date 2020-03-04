@@ -1,0 +1,87 @@
+[
+  {
+    "hrid": "366832",
+    "source": "MARC",
+    "parentInstances": [],
+    "childInstances": [],
+    "title": "The Journal of ecclesiastical history.",
+    "indexTitle": "Journal of ecclesiastical history.",
+    "alternativeTitles": [],
+    "editions": [],
+    "series": [],
+    "identifiers": [
+      {
+        "value": "58020553",
+        "identifierTypeId": "c858e4f2-2b6b-4385-842b-60732ee14abb"
+      },
+      {
+        "value": "0022-0469",
+        "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      },
+      {
+        "value": "(CStRLIN)NYCX1604275S",
+        "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      },
+      {
+        "value": "(NIC)notisABP6388",
+        "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      },
+      {
+        "value": "366832",
+        "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      },
+      {
+        "value": "(OCoLC)1604275",
+        "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      }
+    ],
+    "contributors": [
+      {
+        "name": "Dugmore, C. W. (Clifford William),",
+        "contributorTypeText": "ed.",
+        "contributorNameTypeId": "fe19bae4-da28-472b-be90-d442e2428ead",
+        "primary": false
+      }
+    ],
+    "subjects": [
+      "Church history--Periodicals",
+      "Church history",
+      "Periodicals"
+    ],
+    "classifications": [
+      {
+        "classificationNumber": "BR140 .J6",
+        "classificationTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      },
+      {
+        "classificationNumber": "270.05",
+        "classificationTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      }
+    ],
+    "publication": [
+      {
+        "publisher": "Cambridge University Press [etc.]",
+        "place": "London"
+      }
+    ],
+    "publicationFrequency": [
+      "Quarterly, 1970-",
+      "Semiannual, 1950-69"
+    ],
+    "publicationRange": [
+      "v. 1-   Apr. 1950-"
+    ],
+    "electronicAccess": [],
+    "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
+    "instanceFormatIds": [],
+    "physicalDescriptions": [
+      "v. 25 cm."
+    ],
+    "languages": [
+      "eng"
+    ],
+    "notes": [],
+    "statisticalCodeIds": [],
+    "natureOfContentTermIds": []
+  }
+]

@@ -1,28 +1,24 @@
 {
+  "002": [
+    {
+      "from": "languages",
+      "field": "a"
+    }
+  ],
   "001": [
     {
-      "source": "hrid",
-      "fields": ["a"],
-      "translation": "some_function"
+      "from": "hrid",
+      "field": "a"
     }
   ],
   "024": [
     {
-      "source": "identifiers.identifierTypeId",
-      "fields": ["b"],
-      "translation": "some_function"
+      "from": "identifiers.identifierTypeId",
+      "field": "b"
     },
     {
-      "source": "identifiers.identifierType",
-      "fields": ["c"],
-      "translation": "some_function"
-    }
-  ],
-  "035": [
-    {
-      "source": "identifiers.identifierTypeId",
-      "fields": ["d"],
-      "translation": "some_function"
+      "from": "identifiers.identifierType",
+      "field": "c"
     }
   ]
 }
