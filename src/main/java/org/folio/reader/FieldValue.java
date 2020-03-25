@@ -1,7 +1,7 @@
-package org.folio.value;
+package org.folio.reader;
 
-public interface Value<T> {
-    T getValue();
+public interface FieldValue<T> {
+    T getData();
 
     Type getType();
 

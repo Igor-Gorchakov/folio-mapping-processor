@@ -1,4 +1,4 @@
-package org.folio.rule;
+package org.folio.processor.rule;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,7 +16,7 @@ public class RuleContainer {
         while (containerIterator.hasNext()) {
             Map.Entry<String, Object> entry = containerIterator.next();
             String tag = entry.getKey();
-            JsonArray arrayOfRules = (JsonArray)entry.getValue();
+            JsonArray arrayOfRules = (JsonArray) entry.getValue();
             arrayOfRules.forEach(rule -> rules.add(new Rule(tag, rule)));
         }
     }

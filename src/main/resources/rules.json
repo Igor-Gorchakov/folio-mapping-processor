@@ -1,24 +1,26 @@
 {
-  "002": [
-    {
-      "from": "languages",
-      "field": "a"
-    }
-  ],
   "001": [
     {
-      "from": "hrid",
-      "field": "a"
+      "from": "$.hrid",
+      "translation": {
+        "function": "trim_whitespaces"
+      }
+    }
+  ],
+  "002": [
+    {
+      "from": "$.languages",
+      "subField": "a"
     }
   ],
   "024": [
     {
-      "from": "identifiers.identifierTypeId",
-      "field": "b"
+      "from": "$.identifiers[*].value",
+      "subField": "b"
     },
     {
-      "from": "identifiers.identifierType",
-      "field": "c"
+      "from": "$.contributors[*].name",
+      "subField": "c"
     }
   ]
 }
