@@ -1,4 +1,4 @@
-package org.folio.reader;
+package org.folio.reader.field;
 
 public interface FieldValue<T> {
     T getData();

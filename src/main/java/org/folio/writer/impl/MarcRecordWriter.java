@@ -4,7 +4,11 @@ import org.folio.writer.RecordWriter;
 import org.folio.writer.RecordField;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
-import org.marc4j.marc.*;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
+import org.marc4j.marc.VariableField;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;

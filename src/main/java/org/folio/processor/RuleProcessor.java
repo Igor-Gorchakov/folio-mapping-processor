@@ -1,6 +1,7 @@
 package org.folio.processor;
 
 import io.vertx.core.json.JsonObject;
+import org.folio.reader.JsonObjectFieldReader;
 import org.folio.writer.RecordWriter;
 import org.folio.writer.RecordField;
 import org.folio.writer.impl.MarcRecordWriter;
@@ -11,13 +12,13 @@ import org.folio.processor.translation.Translation;
 import org.folio.processor.translation.TranslationFunction;
 import org.folio.processor.translation.TranslationFunctionHolder;
 import org.folio.reader.FieldReader;
-import org.folio.reader.FieldValue;
-import org.folio.reader.impl.JPathFieldReader;
+import org.folio.reader.field.FieldValue;
+import org.folio.reader.JPathFieldReader;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static org.folio.reader.FieldValue.Type.*;
+import static org.folio.reader.field.FieldValue.Type.*;
 
 public final class RuleProcessor {
     private Settings settings;
@@ -28,7 +29,7 @@ public final class RuleProcessor {
     }
 
     public String process(JsonObject instance) {
-        FieldReader fieldReader = new JPathFieldReader(instance);
+        FieldReader fieldReader = new JsonObjectFieldReader(instance);
         RecordWriter marcRecordWriter = new MarcRecordWriter();
         Iterator ruleIterator = rules.iterator();
         while (ruleIterator.hasNext()) {

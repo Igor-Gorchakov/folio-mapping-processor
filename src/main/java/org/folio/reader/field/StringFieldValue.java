@@ -1,6 +1,4 @@
-package org.folio.reader.impl;
-
-import org.folio.reader.FieldValue;
+package org.folio.reader.field;
 
 public class StringFieldValue implements FieldValue<String> {
     private String data;

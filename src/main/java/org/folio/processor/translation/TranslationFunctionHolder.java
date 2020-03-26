@@ -10,12 +10,5 @@ public enum TranslationFunctionHolder implements TranslationFunction {
             String translated = recordField.getData().trim();
             recordField.setData(translated);
         }
-    },
-
-    GET_CLASSIFICATION_NUMBER() {
-        @Override
-        public void apply(RecordField recordField, JsonObject params, Settings settings) {
-            // use settings
-        }
-    }
+    };
 }
