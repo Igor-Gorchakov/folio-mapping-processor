@@ -38,7 +38,7 @@ public class JPathSyntaxRuleTest {
         // when
         String actualMarcRecord = ruleProcessor.process(reader, writer);
         // then
-        String expectedMarcRecord = IOUtils.toString(new FileReader("src/test/resources/expected_marc_record.mrc"));
+        String expectedMarcRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_marc_record.mrc"));
         Assert.assertEquals(expectedMarcRecord, actualMarcRecord);
     }
 
@@ -51,7 +51,7 @@ public class JPathSyntaxRuleTest {
         // when
         String actualJsonRecord = ruleProcessor.process(reader, writer);
         // then
-        String expectedJsonRecord = IOUtils.toString(new FileReader("src/test/resources/expected_json_record.json"));
+        String expectedJsonRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_json_record.json"));
         Assert.assertEquals(expectedJsonRecord, actualJsonRecord);
     }
 
@@ -64,7 +64,7 @@ public class JPathSyntaxRuleTest {
         // when
         String actualXmlRecord = ruleProcessor.process(fieldReader, writer);
         // then
-        String expectedXmlRecord = IOUtils.toString(new FileReader("src/test/resources/expected_xml_record.xml"));
+        String expectedXmlRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_xml_record.xml"));
         Assert.assertEquals(expectedXmlRecord, actualXmlRecord);
     }
 }
