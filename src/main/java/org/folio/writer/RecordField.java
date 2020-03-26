@@ -49,11 +49,11 @@ public class RecordField {
 
 
     public boolean isControlField() {
-        return false;
+        return Character.getName(subField).equals("NULL");
     }
 
     public boolean isDataField() {
-        return true;
+        return !isControlField();
     }
 
     @Override

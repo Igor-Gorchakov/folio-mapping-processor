@@ -1,0 +1,55 @@
+{
+  "001": [
+    {
+      "description": "The human readable ID",
+      "from": "hrid"
+    }
+  ],
+  "041": [
+    {
+      "description": "Languages",
+      "from": "languages",
+      "subField": "a"
+    }
+  ],
+  "245": [
+    {
+      "description": "Resource Title",
+      "from": "title",
+      "subField": "a"
+    }
+  ],
+  "247": [
+    {
+      "description": "Alternative Title type",
+      "from": "alternativeTitles.alternativeTitleTypeId",
+      "subField": "a",
+      "translation": {
+        "function": "set_alternative_title_type"
+      }
+    }
+  ],
+  "264": [
+    {
+      "description": "Place of publication",
+      "from": "publication.place",
+      "subField": "a"
+    },
+    {
+      "description": "Publisher",
+      "from": "publication.publisher",
+      "subField": "b"
+    },
+    {
+      "description": "Publication date",
+      "from": "publication.dateOfPublication",
+      "subField": "c"
+    }
+  ],
+  "xxx": [
+    {
+      "description": "None existing field just for the testing purposes",
+      "from": "missingField"
+    }
+  ]
+}

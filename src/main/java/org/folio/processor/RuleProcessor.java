@@ -1,19 +1,16 @@
 package org.folio.processor;
 
 import io.vertx.core.json.JsonObject;
-import org.folio.reader.JsonObjectFieldReader;
-import org.folio.writer.RecordWriter;
-import org.folio.writer.RecordField;
-import org.folio.writer.impl.MarcRecordWriter;
 import org.folio.processor.rule.Rule;
 import org.folio.processor.rule.RuleContainer;
 import org.folio.processor.translation.Settings;
 import org.folio.processor.translation.Translation;
 import org.folio.processor.translation.TranslationFunction;
-import org.folio.processor.translation.TranslationFunctionHolder;
+import org.folio.processor.translation.TranslationsHolder;
 import org.folio.reader.FieldReader;
 import org.folio.reader.field.FieldValue;
-import org.folio.reader.JPathFieldReader;
+import org.folio.writer.RecordField;
+import org.folio.writer.RecordWriter;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,9 +25,7 @@ public final class RuleProcessor {
         this.rules = rules;
     }
 
-    public String process(JsonObject instance) {
-        FieldReader fieldReader = new JsonObjectFieldReader(instance);
-        RecordWriter marcRecordWriter = new MarcRecordWriter();
+    public String process(FieldReader fieldReader, RecordWriter recordWriter) {
         Iterator ruleIterator = rules.iterator();
         while (ruleIterator.hasNext()) {
             RuleContainer ruleContainer = new RuleContainer(JsonObject.mapFrom(ruleIterator.next()));
@@ -39,11 +34,11 @@ public final class RuleProcessor {
                 if (!MISSING.equals(fieldValue.getType())) {
                     RecordField recordField = createRecordField(rule, fieldValue);
                     recordField = runTranslation(rule, recordField);
-                    marcRecordWriter.write(recordField);
+                    recordWriter.write(recordField);
                 }
             });
         }
-        return marcRecordWriter.getResult();
+        return recordWriter.getResult();
     }
 
     private RecordField createRecordField(Rule rule, FieldValue fieldValue) {
@@ -62,7 +57,7 @@ public final class RuleProcessor {
     private RecordField runTranslation(Rule rule, RecordField recordField) {
         if (rule.getTranslation() != null) {
             Translation translation = rule.getTranslation();
-            TranslationFunction function = TranslationFunctionHolder.valueOf(translation.getFunction().toUpperCase());
+            TranslationFunction function = TranslationsHolder.valueOf(translation.getFunction().toUpperCase());
             function.apply(recordField, translation.getParameters(), settings);
         }
         return recordField;

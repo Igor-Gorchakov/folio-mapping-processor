@@ -4,15 +4,16 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.folio.reader.field.FieldValue;
 import org.folio.reader.field.ListFieldValue;
+import org.folio.reader.field.MissingFieldValue;
 import org.folio.reader.field.StringFieldValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonObjectFieldReader implements FieldReader {
+public class DotSeparatedSyntaxReader implements FieldReader {
     private JsonObject entity;
 
-    public JsonObjectFieldReader(JsonObject entity) {
+    public DotSeparatedSyntaxReader(JsonObject entity) {
         this.entity = entity;
     }
 
@@ -30,7 +31,7 @@ public class JsonObjectFieldReader implements FieldReader {
             return findByPathRecursively(pathItems, ++index, childNode);
         } else if (parentNode instanceof JsonArray) {
             List<StringFieldValue> stringFieldValues = new ArrayList<>();
-            JsonArray array =  (JsonArray) parentNode;
+            JsonArray array = (JsonArray) parentNode;
             for (Object arrayItem : array) {
                 stringFieldValues.add((StringFieldValue) findByPathRecursively(pathItems, index, arrayItem));
             }
@@ -38,7 +39,7 @@ public class JsonObjectFieldReader implements FieldReader {
             stringFieldValues.forEach(value -> stringList.add(value.getData()));
             return ListFieldValue.of(stringList);
         } else {
-            throw new IllegalArgumentException("Wrong type of the parent node");
+            return MissingFieldValue.getInstance();
         }
     }
 }
