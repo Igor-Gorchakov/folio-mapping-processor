@@ -15,7 +15,9 @@ import org.folio.writer.RecordWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.folio.reader.field.FieldValue.Type.*;
+import static org.folio.reader.field.FieldValue.Type.LIST;
+import static org.folio.reader.field.FieldValue.Type.MISSING;
+import static org.folio.reader.field.FieldValue.Type.STRING;
 
 public final class RuleProcessor {
     private Settings settings;
