@@ -22,11 +22,4 @@ public class ListFieldValue implements FieldValue<List<String>> {
     public Type getType() {
         return Type.LIST;
     }
-
-    @Override
-    public String toString() {
-        return "ListData{" +
-                "data=" + data +
-                '}';
-    }
 }

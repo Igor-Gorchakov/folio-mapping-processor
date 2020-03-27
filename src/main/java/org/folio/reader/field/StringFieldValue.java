@@ -20,11 +20,4 @@ public class StringFieldValue implements FieldValue<String> {
     public Type getType() {
         return Type.STRING;
     }
-
-    @Override
-    public String toString() {
-        return "StringData{" +
-                "data='" + data + '\'' +
-                '}';
-    }
 }
