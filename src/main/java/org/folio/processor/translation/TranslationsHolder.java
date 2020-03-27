@@ -14,6 +14,7 @@ public enum TranslationsHolder implements TranslationFunction {
     SET_ALTERNATIVE_TITLE_TYPE() {
         @Override
         public void apply(RecordField recordField, JsonObject parameters, Settings settings) {
+            // use settings to find item by the given id from the recordField.data
             recordField.setData("Former title");
         }
     }
