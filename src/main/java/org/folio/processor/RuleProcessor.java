@@ -22,6 +22,7 @@ import static org.folio.reader.field.FieldValue.Type.STRING;
 public final class RuleProcessor {
     private Settings settings;
     private JsonObject rules;
+    private String LIST_FIELD_VALUE_DELIMITER = " ";
 
     public RuleProcessor(JsonObject rules) {
         this.rules = rules;
@@ -50,7 +51,7 @@ public final class RuleProcessor {
             recordField.setData(stringValue);
         } else if (LIST.equals(fieldValue.getType())) {
             List<String> listValue = (List) fieldValue.getData();
-            recordField.setData(String.join(" ", listValue));
+            recordField.setData(String.join(LIST_FIELD_VALUE_DELIMITER, listValue));
         }
         recordField.setSubField(rule.getSubField());
         return recordField;
