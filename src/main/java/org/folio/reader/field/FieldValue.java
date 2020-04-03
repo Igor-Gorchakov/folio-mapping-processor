@@ -1,13 +1,15 @@
 package org.folio.reader.field;
 
 public interface FieldValue<T> {
-    T getData();
+    T getValue();
 
     Type getType();
 
     enum Type {
         MISSING,
         STRING,
-        LIST
+        LIST_OF_STRINGS,
+        OBJECT,
+        LIST_OF_OBJECTS
     }
 }

@@ -1,5 +1,6 @@
 package org.folio;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.folio.processor.RuleProcessor;
@@ -21,12 +22,12 @@ import java.io.IOException;
 @RunWith(JUnit4.class)
 public class JPathSyntaxRuleTest {
     private static JsonObject entity;
-    private static JsonObject rules;
+    private static JsonArray rules;
 
     @BeforeClass
     public static void setup() throws IOException {
         entity = new JsonObject(IOUtils.toString(new FileReader("src/test/resources/given_inventory_instance.json")));
-        rules = new JsonObject(IOUtils.toString(new FileReader("src/test/resources/rules/rules_jpath-syntax.json")));
+        rules = new JsonArray(IOUtils.toString(new FileReader("src/test/resources/rulesNew/rules_jpath-syntax.json")));
     }
 
     @Test

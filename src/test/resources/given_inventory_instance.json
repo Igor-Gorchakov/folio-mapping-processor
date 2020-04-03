@@ -14,7 +14,6 @@
   "series": [],
   "identifiers": [
     {
-      "value": "58020553",
       "identifierTypeId": "c858e4f2-2b6b-4385-842b-60732ee14abb"
     },
     {
@@ -87,5 +86,9 @@
   ],
   "notes": [],
   "statisticalCodeIds": [],
-  "natureOfContentTermIds": []
+  "natureOfContentTermIds": [],
+  "testObject": {
+    "name": "objectName",
+    "surname": "objectSurname"
+  }
 }

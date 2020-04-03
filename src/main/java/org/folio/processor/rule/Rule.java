@@ -1,46 +1,47 @@
 package org.folio.processor.rule;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.folio.processor.translation.Translation;
 
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Rule {
-    private String from;
     private String tag;
-    private char subField;
-    private Translation translation;
+    private List<Mapping> mapping = new ArrayList<>();
 
-    public Rule(String tag, Object rule) {
-        if (rule instanceof JsonObject) {
-            JsonObject jsonRule = (JsonObject) rule;
-            this.tag = requireNonNull(tag, format("Wrong rules configuration: 'tag' is missing: %s", jsonRule));
-            this.from = requireNonNull(jsonRule.getString("from"), format("Wrong rules configuration: 'from' is missing: %s", jsonRule));
-            if (jsonRule.containsKey("subField")) {
-                this.subField = jsonRule.getString("subField").charAt(0);
-            }
-            if (jsonRule.containsKey("translation")) {
-                this.translation = new Translation(jsonRule.getJsonObject("translation"));
-            }
+    public Rule(JsonObject rule) {
+        this.tag = rule.getString("tag");
+        JsonArray mapping = rule.getJsonArray("mapping");
+        if (!mapping.isEmpty()) {
+            mapping.forEach(item -> this.mapping.add(new Mapping((JsonObject) item)));
         } else {
-            throw new IllegalArgumentException(format("Rule is not a JsonObject, rule: %s", rule));
+            throw new IllegalArgumentException(String.format("Given rule does not have mapping, rule : %s", rule));
         }
-    }
-
-    public String getFrom() {
-        return from;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public Translation getTranslation() {
-        return translation;
+    public List<Mapping> getMapping() {
+        return mapping;
     }
 
-    public char getSubField() {
-        return subField;
+    public boolean isSimpleFieldRule() {
+        return mapping.size() == 1;
+    }
+
+    public boolean isRepeatableFieldRule() {
+        return mapping.size() > 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Rule{" +
+                "tag='" + tag + '\'' +
+                ", mapping=" + mapping +
+                '}';
     }
 }

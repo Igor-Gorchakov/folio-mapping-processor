@@ -28,43 +28,43 @@ public class DotSeparatedSyntaxRuleTest {
         entity = new JsonObject(IOUtils.toString(new FileReader("src/test/resources/given_inventory_instance.json")));
         rules = new JsonObject(IOUtils.toString(new FileReader("src/test/resources/rules/rules_dot-separated-syntax.json")));
     }
-
-    @Test
-    public void shouldMapEntityTo_MarcRecord() throws IOException {
-        // given
-        RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader reader = new DotSeparatedSyntaxReader(entity);
-        RecordWriter writer = new MarcRecordWriter();
-        // when
-        String actualMarcRecord = ruleProcessor.process(reader, writer);
-        // then
-        String expectedMarcRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_marc_record.mrc"));
-        Assert.assertEquals(expectedMarcRecord, actualMarcRecord);
-    }
-
-    @Test
-    public void shouldMapEntityTo_JsonRecord() throws IOException {
-        // given
-        RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader reader = new DotSeparatedSyntaxReader(entity);
-        RecordWriter writer = new JsonRecordWriter();
-        // when
-        String actualJsonRecord = ruleProcessor.process(reader, writer);
-        // then
-        String expectedJsonRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_json_record.json"));
-        Assert.assertEquals(expectedJsonRecord, actualJsonRecord);
-    }
-
-    @Test
-    public void shouldMapEntityTo_XmlRecord() throws IOException {
-        // given
-        RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader fieldReader = new DotSeparatedSyntaxReader(entity);
-        RecordWriter writer = new XmlRecordWriter();
-        // when
-        String actualXmlRecord = ruleProcessor.process(fieldReader, writer);
-        // then
-        String expectedXmlRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_xml_record.xml"));
-        Assert.assertEquals(expectedXmlRecord, actualXmlRecord);
-    }
+//
+//    @Test
+//    public void shouldMapEntityTo_MarcRecord() throws IOException {
+//        // given
+//        RuleProcessor ruleProcessor = new RuleProcessor(rules);
+//        FieldReader reader = new DotSeparatedSyntaxReader(entity);
+//        RecordWriter writer = new MarcRecordWriter();
+//        // when
+//        String actualMarcRecord = ruleProcessor.process(reader, writer);
+//        // then
+//        String expectedMarcRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_marc_record.mrc"));
+//        Assert.assertEquals(expectedMarcRecord, actualMarcRecord);
+//    }
+//
+//    @Test
+//    public void shouldMapEntityTo_JsonRecord() throws IOException {
+//        // given
+//        RuleProcessor ruleProcessor = new RuleProcessor(rules);
+//        FieldReader reader = new DotSeparatedSyntaxReader(entity);
+//        RecordWriter writer = new JsonRecordWriter();
+//        // when
+//        String actualJsonRecord = ruleProcessor.process(reader, writer);
+//        // then
+//        String expectedJsonRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_json_record.json"));
+//        Assert.assertEquals(expectedJsonRecord, actualJsonRecord);
+//    }
+//
+//    @Test
+//    public void shouldMapEntityTo_XmlRecord() throws IOException {
+//        // given
+//        RuleProcessor ruleProcessor = new RuleProcessor(rules);
+//        FieldReader fieldReader = new DotSeparatedSyntaxReader(entity);
+//        RecordWriter writer = new XmlRecordWriter();
+//        // when
+//        String actualXmlRecord = ruleProcessor.process(fieldReader, writer);
+//        // then
+//        String expectedXmlRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_xml_record.xml"));
+//        Assert.assertEquals(expectedXmlRecord, actualXmlRecord);
+//    }
 }
