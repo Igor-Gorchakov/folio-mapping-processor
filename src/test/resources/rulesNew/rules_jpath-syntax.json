@@ -1,0 +1,27 @@
+[
+  {
+    "tag": "001",
+    "description": "The human readable ID",
+    "mapping": [
+      {
+        "from": "$.hrid"
+      }
+    ]
+  },
+  {
+    "tag": "010",
+    "description": "Identifier",
+    "mapping": [
+      {
+        "subField": "a",
+        "description": "value for LCCN",
+        "from": "$.identifiers[*].value"
+      },
+      {
+        "subField": "z",
+        "description": "value for Invalid ISBN",
+        "from": "$.identifiers[*].value"
+      }
+    ]
+  }
+]
