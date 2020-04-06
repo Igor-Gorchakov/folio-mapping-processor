@@ -2,16 +2,7 @@ package org.folio;
 
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
-import org.folio.processor.RuleProcessor;
-import org.folio.reader.DotSeparatedSyntaxReader;
-import org.folio.reader.FieldReader;
-import org.folio.writer.RecordWriter;
-import org.folio.writer.impl.JsonRecordWriter;
-import org.folio.writer.impl.MarcRecordWriter;
-import org.folio.writer.impl.XmlRecordWriter;
-import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 

@@ -4,11 +4,17 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
+import io.vertx.core.json.JsonObject;
 import net.minidev.json.JSONArray;
-import org.folio.processor.rule.Mapping;
+import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
-import org.folio.reader.field.*;
+import org.folio.reader.values.FieldValue;
+import org.folio.reader.values.MissingValue;
+import org.folio.reader.values.RepeatableValue;
+import org.folio.reader.values.SimpleValue;
+import org.folio.reader.values.StringValue;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,67 +27,61 @@ public class JPathSyntaxReader extends AbstractFieldReader {
     public JPathSyntaxReader(JsonObject entity) {
         this.documentContext = JsonPath.parse(
                 entity.encode(),
-                Configuration.defaultConfiguration()
-                        .addOptions(Option.SUPPRESS_EXCEPTIONS)
-                        .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL)
+                Configuration.defaultConfiguration().addOptions(Option.SUPPRESS_EXCEPTIONS)
         );
     }
 
     @Override
     protected FieldValue readRepeatableField(Rule rule) {
-//        Object repeatableFieldValueType = documentContext.read(mappings.get(0).getFrom());
-//        if (repeatableFieldValueType instanceof JSONArray) {
-//            JSONArray jsonArrayValue = (JSONArray) repeatableFieldValueType;
-//            if (jsonArrayValue.isEmpty()) {
-//                return MissingField.getInstance();
-//            } else {
-//
-//            }
-//        } else {
-//            throw new IllegalStateException(format("The given rule is intended to map array of complex objects. Rule: %s", rule));
-//        }
-//        List<JSONArray> arrays = new ArrayList<>();
-//        for (Mapping mapping : rule.getMapping()) {
-//            String pathToRead = mapping.getFrom();
-//            if (JsonPath.isPathDefinite(pathToRead)) {
-//                throw new IllegalStateException(format("The given mapping is intended to map only array of values: %s", mapping));
-//            }
-//            arrays.add(documentContext.read(pathToRead, JSONArray.class));
-//        }
-//        ListObjectField repeatableField = new ListObjectField();
-//        for (int i = 0; i < arrays.size(); i++) {
-//            ObjectField objectField = new ObjectField();
-//            JSONArray array = arrays.get(i);
-//
-//
-//
-//            repeatableField.add()
-//        }
+        List<SimpleEntry<Condition, JSONArray>> matrix = new ArrayList<>();
+        for (Condition condition : rule.getConditions()) {
+            String path = condition.getFrom();
+            if (JsonPath.isPathDefinite(path)) {
+                throw new IllegalStateException(format("The given mapping is intended to map only array of string: %s", condition));
+            }
+            JSONArray array = this.documentContext.read(condition.getFrom(), JSONArray.class);
+            matrix.add(new SimpleEntry<>(condition, array));
+        }
+        int matrixLength = matrix.size();
+        int matrixWidth = matrix.get(0).getValue().size();
+        if (matrixWidth == 0) {
+            return MissingValue.getInstance();
+        } else {
+            RepeatableValue repeatableField = new RepeatableValue();
+            for (int widthIndex = 0; widthIndex < matrixWidth; widthIndex++) {
+                List<StringValue> objectField = new ArrayList<>();
+                for (int lengthIndex = 0; lengthIndex < matrixLength; lengthIndex++) {
+                    SimpleEntry<Condition, JSONArray> entry = matrix.get(lengthIndex);
+                    objectField.add(SimpleValue.of((String) entry.getValue().get(widthIndex), entry.getKey()));
+                }
+                repeatableField.addEntry(objectField);
+            }
+            return repeatableField;
+        }
     }
 
     @Override
-    protected FieldValue readSimplifiedField(Rule rule) {
-        Mapping mapping = rule.getMapping().get(0);
-        String path = mapping.getFrom();
+    protected FieldValue readSimpleField(Condition condition) {
+        String path = condition.getFrom();
         Object readValue = documentContext.read(path);
         if (readValue instanceof String) {
             String string = (String) readValue;
-            return StringField.of(string);
+            return SimpleValue.of(string, condition);
         } else if (readValue instanceof JSONArray) {
             JSONArray array = (JSONArray) readValue;
             if (array.isEmpty()) {
-                return MissingField.getInstance();
+                return MissingValue.getInstance();
             }
             if (array.get(0) instanceof String) {
                 List<String> listOfStrings = new ArrayList<>();
                 array.forEach(arrayItem -> listOfStrings.add(arrayItem.toString()));
-                return ListStringField.of(listOfStrings);
+                return SimpleValue.of(listOfStrings, condition);
             } else if (array.get(0) instanceof Map) {
-                throw new IllegalArgumentException(format("Reading a list of complex fields is not supported by the single rule: %s", rule));
+                throw new IllegalArgumentException(format("Reading a list of complex fields is not supported, mapping: %s", condition));
             }
         } else if (readValue instanceof Map) {
-            throw new IllegalArgumentException(format("Reading a complex field is not supported by the single rule: %s", rule));
+            throw new IllegalArgumentException(format("Reading a complex field is not supported, mapping: %s", condition));
         }
-        return MissingField.getInstance();
+        return MissingValue.getInstance();
     }
 }

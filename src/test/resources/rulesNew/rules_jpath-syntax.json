@@ -2,25 +2,32 @@
   {
     "tag": "001",
     "description": "The human readable ID",
-    "mapping": [
+    "conditions": [
       {
         "from": "$.hrid"
       }
     ]
   },
   {
-    "tag": "010",
-    "description": "Identifier",
-    "mapping": [
+    "tag": "264",
+    "conditions": [
       {
+        "from": "$.contributors[*].name",
         "subField": "a",
-        "description": "value for LCCN",
-        "from": "$.identifiers[*].value"
+        "translation": {
+          "function": "trip_whitespaces",
+          "parameter": {
+            "name": "someName"
+          }
+        }
       },
       {
-        "subField": "z",
-        "description": "value for Invalid ISBN",
-        "from": "$.identifiers[*].value"
+        "from": "$.contributors[*].contributorTypeText",
+        "subField": "b"
+      },
+      {
+        "from": "$.contributors[*].contributorNameTypeId",
+        "subField": "c"
       }
     ]
   }

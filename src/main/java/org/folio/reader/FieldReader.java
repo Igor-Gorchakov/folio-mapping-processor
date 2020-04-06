@@ -1,7 +1,7 @@
 package org.folio.reader;
 
 import org.folio.processor.rule.Rule;
-import org.folio.reader.field.FieldValue;
+import org.folio.reader.values.FieldValue;
 
 public interface FieldReader {
 

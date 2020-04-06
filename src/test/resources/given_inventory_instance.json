@@ -14,6 +14,7 @@
   "series": [],
   "identifiers": [
     {
+      "value": "58020553",
       "identifierTypeId": "c858e4f2-2b6b-4385-842b-60732ee14abb"
     },
     {
@@ -39,9 +40,33 @@
   ],
   "contributors": [
     {
-      "name": "Dugmore, C. W. (Clifford William),",
-      "contributorTypeText": "ed.",
-      "contributorNameTypeId": "fe19bae4-da28-472b-be90-d442e2428ead",
+      "name": "name1",
+      "contributorTypeText": "contributorTypeText1",
+      "contributorNameTypeId": "contributorNameTypeId1",
+      "primary": false
+    },
+    {
+      "name": "name2",
+      "contributorTypeText": "contributorTypeText2",
+      "contributorNameTypeId": "contributorNameTypeId2",
+      "primary": false
+    },
+    {
+      "name": "name3",
+      "contributorTypeText": "contributorTypeText3",
+      "contributorNameTypeId": "contributorNameTypeId3",
+      "primary": false
+    },
+    {
+      "name": "name4",
+      "contributorTypeText": "contributorTypeText4",
+      "contributorNameTypeId": "contributorNameTypeId4",
+      "primary": false
+    },
+    {
+      "name": "name5",
+      "contributorTypeText": "contributorTypeText5",
+      "contributorNameTypeId": "contributorNameTypeId5",
       "primary": false
     }
   ],

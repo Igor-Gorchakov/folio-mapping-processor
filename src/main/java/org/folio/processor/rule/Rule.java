@@ -8,40 +8,19 @@ import java.util.List;
 
 
 public class Rule {
-    private String tag;
-    private List<Mapping> mapping = new ArrayList<>();
+    private List<Condition> conditions = new ArrayList<>();
 
     public Rule(JsonObject rule) {
-        this.tag = rule.getString("tag");
-        JsonArray mapping = rule.getJsonArray("mapping");
-        if (!mapping.isEmpty()) {
-            mapping.forEach(item -> this.mapping.add(new Mapping((JsonObject) item)));
+        String tag = rule.getString("tag");
+        JsonArray mapping = rule.getJsonArray("conditions");
+        if (mapping.isEmpty()) {
+            throw new IllegalArgumentException(String.format("Given rule does not have condition, rule : %s", rule));
         } else {
-            throw new IllegalArgumentException(String.format("Given rule does not have mapping, rule : %s", rule));
+            mapping.forEach(item -> this.conditions.add(new Condition(tag, (JsonObject) item, mapping.size() > 1)));
         }
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public List<Mapping> getMapping() {
-        return mapping;
-    }
-
-    public boolean isSimpleFieldRule() {
-        return mapping.size() == 1;
-    }
-
-    public boolean isRepeatableFieldRule() {
-        return mapping.size() > 1;
-    }
-
-    @Override
-    public String toString() {
-        return "Rule{" +
-                "tag='" + tag + '\'' +
-                ", mapping=" + mapping +
-                '}';
+    public List<Condition> getConditions() {
+        return conditions;
     }
 }
