@@ -1,6 +1,7 @@
 package org.folio.writer.impl;
 
 import org.folio.processor.rule.Condition;
+import org.folio.reader.values.ListValue;
 import org.folio.reader.values.RepeatableValue;
 import org.folio.reader.values.SimpleValue;
 import org.folio.reader.values.StringValue;
@@ -15,6 +16,7 @@ import org.marc4j.marc.Subfield;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static org.folio.reader.values.SimpleValue.SubType.LIST_OF_STRING;
 import static org.folio.reader.values.SimpleValue.SubType.STRING;
@@ -24,58 +26,57 @@ public class MarcRecordWriter implements RecordWriter {
     private final MarcFactory FACTORY = MarcFactory.newInstance();
     protected final Record RECORD = FACTORY.newRecord();
 
-//    @Override
-//    public void writeControlField(SimplifiedRecordField recordField) {
-//        if (recordField.isControlField()) {
-//            RECORD.addVariableField(FACTORY.newControlField(recordField.getTag(), recordField.getData()));
-//        } else if (recordField.isDataField()) {
-//            List<VariableField> variableFields = RECORD.find(recordField.getTag(), "");
-//            if (variableFields.isEmpty()) {
-//                DataField dataField = FACTORY.newDataField(recordField.getTag(), recordField.getIndicator1(), recordField.getIndicator2());
-//                Subfield subfield = FACTORY.newSubfield(recordField.getSubField(), recordField.getData());
-//                dataField.addSubfield(subfield);
-//                RECORD.addVariableField(dataField);
-//            } else {
-//                DataField existingDataField = (DataField) variableFields.get(0);
-//                Subfield newSubField = FACTORY.newSubfield(recordField.getSubField(), recordField.getData());
-//                existingDataField.addSubfield(newSubField);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void writeDataField(RepeatableRecordField repeatableRecordField) {
-//
-//    }
-
     @Override
-    public void writeSimpleField(SimpleValue simpleValue) {
-        Condition condition = simpleValue.getCondition();
+    public void writeSimpleValue(SimpleValue simpleValue) {
         if (STRING.equals(simpleValue.getSubType())) {
             StringValue stringValue = (StringValue) simpleValue;
-            if (condition.isControlFieldCondition()) {
-                addControlField(condition.getTag(), stringValue.getValue());
-            } else if (condition.isDataFieldCondition()) {
-                addDataFieldWithSingleSubField(condition.getTag(), ' ', ' ', condition.getSubField().toCharArray()[0], stringValue.getValue());
+            if (simpleValue.getCondition().isControlFieldCondition()) {
+                addControlField(stringValue);
+            } else if (simpleValue.getCondition().isDataFieldCondition()) {
+                addDataFieldWithSingleSubField(stringValue);
             }
         } else if (LIST_OF_STRING.equals(simpleValue.getSubType())) {
-            // addDataFieldWithMultipleSubFields(); - для каждого элемента массива порождаем новый сабфилд
+            ListValue listValue = (ListValue) simpleValue;
+            addDataFieldWithMultipleSubFields(listValue);
         }
     }
 
     @Override
-    public void writeRepeatableField(RepeatableValue dataField) {
-        addDataFieldWithSingleSubField();
+    public void writeRepeatableValue(RepeatableValue repeatableValue) {
+        String tag = repeatableValue.getValue().get(0).get(0).getCondition().getTag();
+        for (List<StringValue> entry : repeatableValue.getValue()) {
+            DataField dataField = FACTORY.newDataField(tag, ' ', ' ');
+            entry.forEach(stringValue -> {
+                Condition condition = stringValue.getCondition();
+                char subFieldCode = condition.getSubField().charAt(0);
+                Subfield subfield = FACTORY.newSubfield(subFieldCode, stringValue.getValue());
+                dataField.addSubfield(subfield);
+                RECORD.addVariableField(dataField);
+            });
+        }
     }
 
-    private void addControlField(String tag, String value) {
-        this.RECORD.addVariableField(FACTORY.newControlField(tag, value));
+    private void addControlField(StringValue stringValue) {
+        this.RECORD.addVariableField(FACTORY.newControlField(stringValue.getCondition().getTag(), stringValue.getValue()));
     }
 
-    private void addDataFieldWithSingleSubField(String tag, char indicator1, char indicator2, char subFieldCode, String subFieldValue) {
-        DataField dataField = FACTORY.newDataField(tag, indicator1, indicator2);
-        Subfield subfield = FACTORY.newSubfield(subFieldCode, subFieldValue);
+    private void addDataFieldWithSingleSubField(StringValue stringValue) {
+        Condition condition = stringValue.getCondition();
+        char subFieldCode = condition.getSubField().charAt(0);
+        DataField dataField = FACTORY.newDataField(condition.getTag(), ' ', ' ');
+        Subfield subfield = FACTORY.newSubfield(subFieldCode, stringValue.getValue());
         dataField.addSubfield(subfield);
+        RECORD.addVariableField(dataField);
+    }
+
+    private void addDataFieldWithMultipleSubFields(ListValue listValue) {
+        Condition condition = listValue.getCondition();
+        char subFieldCode = condition.getSubField().charAt(0);
+        DataField dataField = FACTORY.newDataField(condition.getTag(), ' ', ' ');
+        for (String stringValue : listValue.getValue()) {
+            Subfield subfield = FACTORY.newSubfield(subFieldCode, stringValue);
+            dataField.addSubfield(subfield);
+        }
         RECORD.addVariableField(dataField);
     }
 

@@ -2,8 +2,6 @@ package org.folio.processor.rule;
 
 import io.vertx.core.json.JsonObject;
 
-import java.util.Objects;
-
 public class Condition {
 
     private String tag;

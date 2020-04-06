@@ -1,11 +1,15 @@
 package org.folio.reader.values;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepeatableValue implements FieldValue {
-    private List<List<StringValue>> values = new ArrayList<>();
+public class RepeatableValue implements FieldValue<List<List<StringValue>>> {
+    private List<List<StringValue>> value = new ArrayList<>();
+
+    @Override
+    public List<List<StringValue>> getValue() {
+        return value;
+    }
 
     @Override
     public Type getType() {
@@ -13,6 +17,8 @@ public class RepeatableValue implements FieldValue {
     }
 
     public boolean addEntry(List<StringValue> entry) {
-        return this.values.add(entry);
+        return this.value.add(entry);
     }
+
+
 }

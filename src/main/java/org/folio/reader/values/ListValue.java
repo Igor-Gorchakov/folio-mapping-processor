@@ -17,6 +17,10 @@ public class ListValue extends SimpleValue<List<String>> {
         return this.value;
     }
 
+    public void setValue(List<String> value) {
+        this.value = value;
+    }
+
     @Override
     public SubType getSubType() {
         return SubType.LIST_OF_STRING;

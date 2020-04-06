@@ -1,6 +1,8 @@
 package org.folio.reader.values;
 
-public interface FieldValue {
+public interface FieldValue<T> {
+    T getValue();
+
     Type getType();
 
     enum Type {

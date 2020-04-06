@@ -1,12 +1,17 @@
 package org.folio.reader.values;
 
-public class MissingValue implements FieldValue {
+public class MissingValue implements FieldValue<MissingValue> {
     private static final MissingValue INSTANCE = new MissingValue();
 
     private MissingValue() {
     }
 
     public static MissingValue getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public MissingValue getValue() {
         return INSTANCE;
     }
 

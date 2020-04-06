@@ -15,6 +15,10 @@ public class StringValue extends SimpleValue<String> {
         return this.value;
     }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public SubType getSubType() {
         return SubType.STRING;

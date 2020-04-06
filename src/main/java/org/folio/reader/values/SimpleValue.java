@@ -4,7 +4,7 @@ import org.folio.processor.rule.Condition;
 
 import java.util.List;
 
-public abstract class SimpleValue<T> implements FieldValue {
+public abstract class SimpleValue<T> implements FieldValue<T> {
     protected Condition condition;
 
     public static StringValue of(String string, Condition condition) {
@@ -18,8 +18,6 @@ public abstract class SimpleValue<T> implements FieldValue {
     public Condition getCondition() {
         return this.condition;
     }
-
-    public abstract T getValue();
 
     @Override
     public Type getType() {
