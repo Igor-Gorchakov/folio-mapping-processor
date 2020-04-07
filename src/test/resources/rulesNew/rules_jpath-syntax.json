@@ -4,7 +4,13 @@
     "description": "The human readable ID",
     "conditions": [
       {
-        "from": "$.hrid"
+        "from": "$.hrid",
+        "translation": {
+          "function": "stub",
+          "parameter": {
+            "name": "someName"
+          }
+        }
       }
     ]
   },
@@ -15,7 +21,7 @@
         "from": "$.contributors[*].name",
         "subField": "a",
         "translation": {
-          "function": "trip_whitespaces",
+          "function": "stub",
           "parameter": {
             "name": "someName"
           }
@@ -28,6 +34,26 @@
       {
         "from": "$.contributors[*].contributorNameTypeId",
         "subField": "c"
+      }
+    ]
+  },
+  {
+    "tag": "856",
+    "conditions": [
+      {
+        "from": "$.electronicAccess[*].relationshipId",
+        "indicator": "2",
+        "translation": {
+          "function": "stub",
+          "parameter": {
+            "from": "Resource",
+            "value": 0
+          }
+        }
+      },
+      {
+        "from": "$.electronicAccess[*].linkText",
+        "subField": "y"
       }
     ]
   }

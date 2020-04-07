@@ -27,7 +27,7 @@ public class MarcRecordWriter implements RecordWriter {
     protected final Record RECORD = FACTORY.newRecord();
 
     @Override
-    public void writeSimpleValue(SimpleValue simpleValue) {
+    public void write(SimpleValue simpleValue) {
         if (STRING.equals(simpleValue.getSubType())) {
             StringValue stringValue = (StringValue) simpleValue;
             if (simpleValue.getCondition().isControlFieldCondition()) {
@@ -42,7 +42,7 @@ public class MarcRecordWriter implements RecordWriter {
     }
 
     @Override
-    public void writeRepeatableValue(RepeatableValue repeatableValue) {
+    public void write(RepeatableValue repeatableValue) {
         String tag = repeatableValue.getValue().get(0).get(0).getCondition().getTag();
         for (List<StringValue> entry : repeatableValue.getValue()) {
             DataField dataField = FACTORY.newDataField(tag, ' ', ' ');
@@ -51,8 +51,8 @@ public class MarcRecordWriter implements RecordWriter {
                 char subFieldCode = condition.getSubField().charAt(0);
                 Subfield subfield = FACTORY.newSubfield(subFieldCode, stringValue.getValue());
                 dataField.addSubfield(subfield);
-                RECORD.addVariableField(dataField);
             });
+            RECORD.addVariableField(dataField);
         }
     }
 

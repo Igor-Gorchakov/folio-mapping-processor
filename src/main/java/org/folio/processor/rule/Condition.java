@@ -45,11 +45,11 @@ public class Condition {
     }
 
     public boolean isControlFieldCondition() {
-        return this.subField != null;
+        return this.subField == null;
     }
 
     public boolean isDataFieldCondition() {
-        return this.subField == null;
+        return this.subField != null;
     }
 
     public String getTarget() {

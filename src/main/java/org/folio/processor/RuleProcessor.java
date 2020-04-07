@@ -38,13 +38,13 @@ public final class RuleProcessor {
             switch (fieldValue.getType()) {
                 case SIMPLE:
                     SimpleValue simpleValue = (SimpleValue) fieldValue;
-                    applyTranslation(simpleValue);
-                    writer.writeSimpleValue(simpleValue);
+                    translate(simpleValue);
+                    writer.write(simpleValue);
                     break;
                 case REPEATABLE:
                     RepeatableValue repeatableValue = (RepeatableValue) fieldValue;
-                    applyTranslation(repeatableValue);
-                    writer.writeRepeatableValue(repeatableValue);
+                    translate(repeatableValue);
+                    writer.write(repeatableValue);
                     break;
                 case MISSING:
             }
@@ -52,10 +52,10 @@ public final class RuleProcessor {
         return writer.getResult();
     }
 
-    private void applyTranslation(SimpleValue simpleValue) {
+    private void translate(SimpleValue simpleValue) {
         Translation translation = simpleValue.getCondition().getTranslation();
         if (translation != null) {
-            TranslationFunction translationFunction = TranslationsHolder.valueOf(translation.getFunction());
+            TranslationFunction translationFunction = TranslationsHolder.lookup(translation.getFunction());
             if (STRING.equals(simpleValue.getSubType())) {
                 StringValue stringValue = (StringValue) simpleValue;
                 String readValue = stringValue.getValue();
@@ -73,13 +73,13 @@ public final class RuleProcessor {
         }
     }
 
-    private void applyTranslation(RepeatableValue repeatableValue) {
+    private void translate(RepeatableValue repeatableValue) {
         List<List<StringValue>> readValues = repeatableValue.getValue();
         for (List<StringValue> readEntry : readValues) {
             readEntry.forEach(stringValue -> {
                 Translation translation = stringValue.getCondition().getTranslation();
                 if (translation != null) {
-                    TranslationFunction translationFunction = TranslationsHolder.valueOf(translation.getFunction());
+                    TranslationFunction translationFunction = TranslationsHolder.lookup(translation.getFunction());
                     String readValue = stringValue.getValue();
                     String translatedValue = translationFunction.apply(readValue, translation.getParameters(), settings);
                     stringValue.setValue(translatedValue);

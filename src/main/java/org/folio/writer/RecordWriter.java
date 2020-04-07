@@ -5,9 +5,9 @@ import org.folio.reader.values.SimpleValue;
 
 public interface RecordWriter {
 
-    void writeSimpleValue(SimpleValue simpleValue);
+    void write(SimpleValue simpleValue);
 
-    void writeRepeatableValue(RepeatableValue repeatableValue);
+    void write(RepeatableValue repeatableValue);
 
     String getResult();
 }
