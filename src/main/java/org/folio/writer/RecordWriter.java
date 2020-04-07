@@ -1,13 +1,13 @@
 package org.folio.writer;
 
-import org.folio.writer.fields.RecordControlField;
-import org.folio.writer.fields.RecordDataField;
+import org.folio.reader.values.CompositeValue;
+import org.folio.reader.values.SimpleValue;
 
 public interface RecordWriter {
 
-    void writeControlField(RecordControlField field);
+    void write(SimpleValue value);
 
-    void writeDataField(RecordDataField recordDataField);
+    void write(CompositeValue compositeValue);
 
     String getResult();
 }

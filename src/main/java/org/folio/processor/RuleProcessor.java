@@ -2,7 +2,6 @@ package org.folio.processor;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
 import org.folio.processor.rule.Translation;
 import org.folio.processor.translations.Settings;
@@ -15,8 +14,6 @@ import org.folio.reader.values.RuleValue;
 import org.folio.reader.values.SimpleValue;
 import org.folio.reader.values.StringValue;
 import org.folio.writer.RecordWriter;
-import org.folio.writer.fields.RecordControlField;
-import org.folio.writer.fields.RecordDataField;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,35 +37,19 @@ public final class RuleProcessor {
             RuleValue ruleValue = reader.read(rule);
             switch (ruleValue.getType()) {
                 case SIMPLE:
-                    process((SimpleValue) ruleValue, writer);
+                    SimpleValue value = (SimpleValue) ruleValue;
+                    translate(value);
+                    writer.write(value);
                     break;
                 case COMPOSITE:
-                    process((CompositeValue) ruleValue, writer);
+                    CompositeValue compositeValue = (CompositeValue) ruleValue;
+                    translate(compositeValue);
+                    writer.write(compositeValue);
                     break;
                 case MISSING:
             }
         }
         return writer.getResult();
-    }
-
-    private void process(SimpleValue simpleValue, RecordWriter writer) {
-        translate(simpleValue);
-        Condition condition = simpleValue.getCondition();
-        if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
-            RecordDataField recordDataField = new RecordDataField(simpleValue);
-            writer.writeDataField(recordDataField);
-        } else {
-            RecordControlField recordControlField = new RecordControlField(simpleValue);
-            writer.writeControlField(recordControlField);
-        }
-    }
-
-    private void process(CompositeValue compositeValue, RecordWriter writer) {
-        translate(compositeValue);
-        for (List<StringValue> dataField : compositeValue.getValue()) {
-            RecordDataField recordDataField = new RecordDataField(dataField);
-            writer.writeDataField(recordDataField);
-        }
     }
 
     private void translate(SimpleValue simpleValue) {
