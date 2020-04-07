@@ -3,6 +3,7 @@ package org.folio.writer.impl;
 import org.folio.processor.rule.Condition;
 import org.folio.reader.values.ListValue;
 import org.folio.reader.values.StringValue;
+import org.folio.writer.RecordWriter;
 import org.folio.writer.fields.RecordControlField;
 import org.folio.writer.fields.RecordDataField;
 import org.marc4j.MarcStreamWriter;
@@ -16,7 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class MarcRecordWriter extends AbstractRecordWriter {
+public class MarcRecordWriter implements RecordWriter {
     protected final String ENCODING = StandardCharsets.UTF_8.name();
     private final MarcFactory FACTORY = MarcFactory.newInstance();
     protected final Record RECORD = FACTORY.newRecord();
@@ -76,12 +77,12 @@ public class MarcRecordWriter extends AbstractRecordWriter {
     }
 
     @Override
-    protected void writeControlField(RecordControlField recordControlField) {
+    public void writeControlField(RecordControlField field) {
 
     }
 
     @Override
-    protected void writeDataField(RecordDataField recordDataField) {
+    public void writeDataField(RecordDataField recordDataField) {
 
     }
 

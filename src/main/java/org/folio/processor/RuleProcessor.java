@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import org.folio.processor.functions.Settings;
 import org.folio.processor.functions.TranslationFunction;
 import org.folio.processor.functions.TranslationsHolder;
+import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
 import org.folio.processor.rule.Translation;
 import org.folio.reader.Reader;
@@ -14,6 +15,8 @@ import org.folio.reader.values.RuleValue;
 import org.folio.reader.values.SimpleValue;
 import org.folio.reader.values.StringValue;
 import org.folio.writer.RecordWriter;
+import org.folio.writer.fields.RecordControlField;
+import org.folio.writer.fields.RecordDataField;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,20 +40,35 @@ public final class RuleProcessor {
             RuleValue ruleValue = reader.read(rule);
             switch (ruleValue.getType()) {
                 case SIMPLE:
-                    SimpleValue simpleValue = (SimpleValue) ruleValue;
-                    translate(simpleValue);
-                    writer.write(simpleValue);
+                    process((SimpleValue) ruleValue, writer);
                     break;
                 case COMPOSITE:
-                    CompositeValue compositeValue = (CompositeValue) ruleValue;
-                    translate(compositeValue);
-                    writer.write(compositeValue);
+                    process((CompositeValue) ruleValue, writer);
                     break;
                 case MISSING:
             }
         }
         return writer.getResult();
     }
+
+    private void process(SimpleValue simpleValue, RecordWriter writer) {
+        translate(simpleValue);
+        Condition condition = simpleValue.getCondition();
+        if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
+            RecordDataField recordDataField = new RecordDataField(simpleValue);
+            writer.writeDataField(recordDataField);
+        } else {
+            RecordControlField recordControlField = new RecordControlField(simpleValue);
+            writer.writeControlField(recordControlField);
+        }
+    }
+
+    private void process(CompositeValue compositeValue, RecordWriter writer) {
+        translate(compositeValue);
+        RecordDataField recordDataField = new RecordDataField(compositeValue);
+        writer.writeDataField(recordDataField);
+    }
+
 
     private void translate(SimpleValue simpleValue) {
         Translation translation = simpleValue.getCondition().getTranslation();
