@@ -3,7 +3,7 @@ package org.folio.reader.values;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepeatableValue implements FieldValue<List<List<StringValue>>> {
+public class CompositeValue implements RuleValue<List<List<StringValue>>> {
     private List<List<StringValue>> value = new ArrayList<>();
 
     @Override
@@ -13,12 +13,17 @@ public class RepeatableValue implements FieldValue<List<List<StringValue>>> {
 
     @Override
     public Type getType() {
-        return Type.REPEATABLE;
+        return Type.COMPOSITE;
     }
 
     public boolean addEntry(List<StringValue> entry) {
         return this.value.add(entry);
     }
 
-
+    @Override
+    public String toString() {
+        return "CompositeValue{" +
+                "value=" + value +
+                '}';
+    }
 }

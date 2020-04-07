@@ -25,4 +25,12 @@ public class ListValue extends SimpleValue<List<String>> {
     public SubType getSubType() {
         return SubType.LIST_OF_STRING;
     }
+
+    @Override
+    public String toString() {
+        return "ListValue{" +
+                "value=" + value +
+                ", condition=" + condition +
+                '}';
+    }
 }

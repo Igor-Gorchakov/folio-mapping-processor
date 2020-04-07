@@ -16,11 +16,18 @@ public class Rule {
         if (mapping.isEmpty()) {
             throw new IllegalArgumentException(String.format("Given rule does not have condition, rule : %s", rule));
         } else {
-            mapping.forEach(item -> this.conditions.add(new Condition(tag, (JsonObject) item, mapping.size() > 1)));
+            mapping.forEach(item -> this.conditions.add(new Condition(tag, (JsonObject) item)));
         }
     }
 
     public List<Condition> getConditions() {
         return conditions;
+    }
+
+    @Override
+    public String toString() {
+        return "Rule{" +
+                "conditions=" + conditions +
+                '}';
     }
 }

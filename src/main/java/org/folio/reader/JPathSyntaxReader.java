@@ -8,9 +8,9 @@ import io.vertx.core.json.JsonObject;
 import net.minidev.json.JSONArray;
 import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
-import org.folio.reader.values.FieldValue;
+import org.folio.reader.values.CompositeValue;
 import org.folio.reader.values.MissingValue;
-import org.folio.reader.values.RepeatableValue;
+import org.folio.reader.values.RuleValue;
 import org.folio.reader.values.SimpleValue;
 import org.folio.reader.values.StringValue;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 
 import static java.lang.String.format;
 
-public class JPathSyntaxReader extends AbstractFieldReader {
+public class JPathSyntaxReader extends AbstractReader {
     private final DocumentContext documentContext;
 
     public JPathSyntaxReader(JsonObject entity) {
@@ -32,7 +32,7 @@ public class JPathSyntaxReader extends AbstractFieldReader {
     }
 
     @Override
-    protected FieldValue readRepeatableField(Rule rule) {
+    protected RuleValue readCompositeValue(Rule rule) {
         List<SimpleEntry<Condition, JSONArray>> matrix = new ArrayList<>();
         for (Condition condition : rule.getConditions()) {
             String path = condition.getFrom();
@@ -47,21 +47,26 @@ public class JPathSyntaxReader extends AbstractFieldReader {
         if (matrixWidth == 0) {
             return MissingValue.getInstance();
         } else {
-            RepeatableValue repeatableField = new RepeatableValue();
+            CompositeValue compositeValue = new CompositeValue();
             for (int widthIndex = 0; widthIndex < matrixWidth; widthIndex++) {
-                List<StringValue> objectField = new ArrayList<>();
+                List<StringValue> entry = new ArrayList<>();
                 for (int lengthIndex = 0; lengthIndex < matrixLength; lengthIndex++) {
-                    SimpleEntry<Condition, JSONArray> entry = matrix.get(lengthIndex);
-                    objectField.add(SimpleValue.of((String) entry.getValue().get(widthIndex), entry.getKey()));
+                    SimpleEntry<Condition, JSONArray> field = matrix.get(lengthIndex);
+                    JSONArray jsonArray = field.getValue();
+                    if (jsonArray.isEmpty()) {
+                        entry.add(SimpleValue.ofNullable(field.getKey()));
+                    } else {
+                        entry.add(SimpleValue.of((String) jsonArray.get(widthIndex), field.getKey()));
+                    }
                 }
-                repeatableField.addEntry(objectField);
+                compositeValue.addEntry(entry);
             }
-            return repeatableField;
+            return compositeValue;
         }
     }
 
     @Override
-    protected FieldValue readSimpleField(Condition condition) {
+    protected RuleValue readSimpleValue(Condition condition) {
         String path = condition.getFrom();
         Object readValue = documentContext.read(path);
         if (readValue instanceof String) {

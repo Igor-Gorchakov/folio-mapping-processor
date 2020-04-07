@@ -7,10 +7,10 @@ import org.folio.processor.functions.TranslationFunction;
 import org.folio.processor.functions.TranslationsHolder;
 import org.folio.processor.rule.Rule;
 import org.folio.processor.rule.Translation;
-import org.folio.reader.FieldReader;
-import org.folio.reader.values.FieldValue;
+import org.folio.reader.Reader;
+import org.folio.reader.values.CompositeValue;
 import org.folio.reader.values.ListValue;
-import org.folio.reader.values.RepeatableValue;
+import org.folio.reader.values.RuleValue;
 import org.folio.reader.values.SimpleValue;
 import org.folio.reader.values.StringValue;
 import org.folio.writer.RecordWriter;
@@ -30,21 +30,21 @@ public final class RuleProcessor {
         this.rules = rules;
     }
 
-    public String process(FieldReader reader, RecordWriter writer) {
+    public String process(Reader reader, RecordWriter writer) {
         Iterator ruleIterator = rules.iterator();
         while (ruleIterator.hasNext()) {
             Rule rule = new Rule(JsonObject.mapFrom(ruleIterator.next()));
-            FieldValue fieldValue = reader.read(rule);
-            switch (fieldValue.getType()) {
+            RuleValue ruleValue = reader.read(rule);
+            switch (ruleValue.getType()) {
                 case SIMPLE:
-                    SimpleValue simpleValue = (SimpleValue) fieldValue;
+                    SimpleValue simpleValue = (SimpleValue) ruleValue;
                     translate(simpleValue);
                     writer.write(simpleValue);
                     break;
-                case REPEATABLE:
-                    RepeatableValue repeatableValue = (RepeatableValue) fieldValue;
-                    translate(repeatableValue);
-                    writer.write(repeatableValue);
+                case COMPOSITE:
+                    CompositeValue compositeValue = (CompositeValue) ruleValue;
+                    translate(compositeValue);
+                    writer.write(compositeValue);
                     break;
                 case MISSING:
             }
@@ -73,8 +73,8 @@ public final class RuleProcessor {
         }
     }
 
-    private void translate(RepeatableValue repeatableValue) {
-        List<List<StringValue>> readValues = repeatableValue.getValue();
+    private void translate(CompositeValue compositeValue) {
+        List<List<StringValue>> readValues = compositeValue.getValue();
         for (List<StringValue> readEntry : readValues) {
             readEntry.forEach(stringValue -> {
                 Translation translation = stringValue.getCondition().getTranslation();
@@ -87,4 +87,6 @@ public final class RuleProcessor {
             });
         }
     }
+
+
 }

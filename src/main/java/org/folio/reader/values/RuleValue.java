@@ -1,6 +1,6 @@
 package org.folio.reader.values;
 
-public interface FieldValue<T> {
+public interface RuleValue<T> {
     T getValue();
 
     Type getType();
@@ -8,6 +8,6 @@ public interface FieldValue<T> {
     enum Type {
         MISSING,
         SIMPLE,
-        REPEATABLE
+        COMPOSITE
     }
 }

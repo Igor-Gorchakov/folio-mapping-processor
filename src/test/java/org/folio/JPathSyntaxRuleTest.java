@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.folio.processor.RuleProcessor;
-import org.folio.reader.FieldReader;
+import org.folio.reader.Reader;
 import org.folio.reader.JPathSyntaxReader;
 import org.folio.writer.RecordWriter;
 import org.folio.writer.impl.JsonRecordWriter;
@@ -34,7 +34,7 @@ public class JPathSyntaxRuleTest {
     public void shouldMapEntityTo_MarcRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader reader = new JPathSyntaxReader(entity);
+        Reader reader = new JPathSyntaxReader(entity);
         RecordWriter writer = new MarcRecordWriter();
         // when
         String actualMarcRecord = ruleProcessor.process(reader, writer);
@@ -47,7 +47,7 @@ public class JPathSyntaxRuleTest {
     public void shouldMapEntityTo_JsonRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader reader = new JPathSyntaxReader(entity);
+        Reader reader = new JPathSyntaxReader(entity);
         RecordWriter writer = new JsonRecordWriter();
         // when
         String actualJsonRecord = ruleProcessor.process(reader, writer);
@@ -60,10 +60,10 @@ public class JPathSyntaxRuleTest {
     public void shouldMapEntityTo_XmlRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        FieldReader fieldReader = new JPathSyntaxReader(entity);
+        Reader reader = new JPathSyntaxReader(entity);
         RecordWriter writer = new XmlRecordWriter();
         // when
-        String actualXmlRecord = ruleProcessor.process(fieldReader, writer);
+        String actualXmlRecord = ruleProcessor.process(reader, writer);
         // then
         String expectedXmlRecord = IOUtils.toString(new FileReader("src/test/resources/records/expected_xml_record.xml"));
         Assert.assertEquals(expectedXmlRecord, actualXmlRecord);
