@@ -1,14 +1,17 @@
 package org.folio.writer.fields;
 
-import org.folio.reader.values.SimpleValue;
 
 public class RecordControlField {
     private String tag;
     private String data;
 
-    public RecordControlField(SimpleValue value) {
-        this.tag = value.getCondition().getTag();
-        this.data = value.getCondition().getSubfield();
+    public RecordControlField(String tag, String data) {
+        this.tag = tag;
+        this.data = data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getTag() {
