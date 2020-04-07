@@ -49,6 +49,7 @@ public final class RuleProcessor {
                 case MISSING:
             }
         }
+
         return writer.getResult();
     }
 

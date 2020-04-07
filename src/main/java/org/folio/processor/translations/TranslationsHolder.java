@@ -10,10 +10,16 @@ public enum TranslationsHolder implements TranslationFunction {
             return value + "-STUB";
         }
     },
-    SET_INDICATOR() {
+    SET_ALTERNATIVE_TITLE_TYPE() {
         @Override
         public String apply(String value, JsonObject parameters, Settings settings) {
-            return null;
+            return value;
+        }
+    },
+    SET_ELECTRONIC_ACCESS_INDICATOR() {
+        @Override
+        public String apply(String value, JsonObject parameters, Settings settings) {
+            return "0";
         }
     };
 

@@ -14,7 +14,7 @@
     "conditions": [
       {
         "from": "$.languages",
-        "subField": "a"
+        "subfield": "a"
       }
     ]
   },
@@ -24,7 +24,7 @@
     "conditions": [
       {
         "from": "$.title",
-        "subField": "a"
+        "subfield": "a"
       }
     ]
   },
@@ -34,7 +34,7 @@
     "conditions": [
       {
         "from": "$.alternativeTitles[*].alternativeTitleTypeId",
-        "subField": "a",
+        "subfield": "a",
         "translation": {
           "function": "set_alternative_title_type"
         }
@@ -48,24 +48,41 @@
       {
         "description": "Place of publication",
         "from": "$.publication[*].place",
-        "subField": "a"
+        "subfield": "a"
       },
       {
         "description": "Publisher",
         "from": "$.publication[*].publisher",
-        "subField": "b"
+        "subfield": "b"
       },
       {
         "description": "Publication date",
         "from": "$.publication[*].dateOfPublication",
-        "subField": "c"
+        "subfield": "c"
       }
     ]
   },
-
   {
-    "tag": "---",
-    "description": "None existing field just for the testing purposes",
-    "from": "$.missingField"
+    "tag": "856",
+    "description": "Contributor",
+    "conditions": [
+      {
+        "description": "Place of publication",
+        "from": "$.electronicAccess[*].relationshipId",
+        "indicator": "2",
+        "translation": {
+          "function": "set_electronic_access_indicator",
+          "parameter": {
+            "from": "Resource",
+            "value": 0
+          }
+        }
+      },
+      {
+        "description": "Link text",
+        "from": "$.electronicAccess[*].linkText",
+        "subfield": "y"
+      }
+    ]
   }
 ]
