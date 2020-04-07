@@ -47,24 +47,19 @@
     "conditions": [
       {
         "description": "Place of publication",
-        "from": "$.publication[*].place",
+        "from": "$.contributors[*].name",
         "subfield": "a"
       },
       {
         "description": "Publisher",
-        "from": "$.publication[*].publisher",
+        "from": "$.contributors[*].contributorTypeText",
         "subfield": "b"
-      },
-      {
-        "description": "Publication date",
-        "from": "$.publication[*].dateOfPublication",
-        "subfield": "c"
       }
     ]
   },
   {
     "tag": "856",
-    "description": "Contributor",
+    "description": "electronicAccess",
     "conditions": [
       {
         "description": "Place of publication",

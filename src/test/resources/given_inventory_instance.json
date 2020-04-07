@@ -104,7 +104,8 @@
     {
       "uri": "http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM02903",
       "materialsSpecification": "Finding aid",
-      "relationshipId": "fe19bae4-da28-472b-be90-d442e2428ead"
+      "relationshipId": "fe19bae4-da28-472b-be90-d442e2428ead",
+      "linkText": "stub text"
     }
   ],
   "instanceTypeId": "30fffe0e-e985-4144-b2e2-1e8179bdb41f",
