@@ -2,12 +2,12 @@ package org.folio.processor;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.folio.processor.functions.Settings;
-import org.folio.processor.functions.TranslationFunction;
-import org.folio.processor.functions.TranslationsHolder;
 import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
 import org.folio.processor.rule.Translation;
+import org.folio.processor.translations.Settings;
+import org.folio.processor.translations.TranslationFunction;
+import org.folio.processor.translations.TranslationsHolder;
 import org.folio.reader.Reader;
 import org.folio.reader.values.CompositeValue;
 import org.folio.reader.values.ListValue;
@@ -65,15 +65,16 @@ public final class RuleProcessor {
 
     private void process(CompositeValue compositeValue, RecordWriter writer) {
         translate(compositeValue);
-        RecordDataField recordDataField = new RecordDataField(compositeValue);
-        writer.writeDataField(recordDataField);
+        for (List<StringValue> dataField : compositeValue.getValue()) {
+            RecordDataField recordDataField = new RecordDataField(dataField);
+            writer.writeDataField(recordDataField);
+        }
     }
-
 
     private void translate(SimpleValue simpleValue) {
         Translation translation = simpleValue.getCondition().getTranslation();
         if (translation != null) {
-            TranslationFunction translationFunction = TranslationsHolder.lookup(translation.getFunction());
+            TranslationFunction translationFunction = TranslationsHolder.lookup(translation);
             if (STRING.equals(simpleValue.getSubType())) {
                 StringValue stringValue = (StringValue) simpleValue;
                 String readValue = stringValue.getValue();
@@ -97,7 +98,7 @@ public final class RuleProcessor {
             readEntry.forEach(stringValue -> {
                 Translation translation = stringValue.getCondition().getTranslation();
                 if (translation != null) {
-                    TranslationFunction translationFunction = TranslationsHolder.lookup(translation.getFunction());
+                    TranslationFunction translationFunction = TranslationsHolder.lookup(translation);
                     String readValue = stringValue.getValue();
                     String translatedValue = translationFunction.apply(readValue, translation.getParameters(), settings);
                     stringValue.setValue(translatedValue);

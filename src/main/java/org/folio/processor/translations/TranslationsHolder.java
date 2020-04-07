@@ -1,6 +1,7 @@
-package org.folio.processor.functions;
+package org.folio.processor.translations;
 
 import io.vertx.core.json.JsonObject;
+import org.folio.processor.rule.Translation;
 
 public enum TranslationsHolder implements TranslationFunction {
     STUB() {
@@ -16,7 +17,7 @@ public enum TranslationsHolder implements TranslationFunction {
         }
     };
 
-    public static TranslationFunction lookup(String function) {
-        return valueOf(function.toUpperCase());
+    public static TranslationFunction lookup(Translation translation) {
+        return valueOf(translation.getFunction().toUpperCase());
     }
 }

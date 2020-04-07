@@ -1,4 +1,4 @@
-package org.folio.processor.functions;
+package org.folio.processor.translations;
 
 import io.vertx.core.json.JsonObject;
 
