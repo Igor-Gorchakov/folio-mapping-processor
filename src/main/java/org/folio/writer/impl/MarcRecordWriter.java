@@ -1,6 +1,5 @@
 package org.folio.writer.impl;
 
-import org.folio.writer.RecordWriter;
 import org.folio.writer.fields.RecordControlField;
 import org.folio.writer.fields.RecordDataField;
 import org.marc4j.MarcStreamWriter;
@@ -15,7 +14,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class MarcRecordWriter implements RecordWriter {
+public class MarcRecordWriter extends AbstractRecordWriter {
     protected final String ENCODING = StandardCharsets.UTF_8.name();
     private final MarcFactory FACTORY = MarcFactory.newInstance();
     protected final Record RECORD = FACTORY.newRecord();
@@ -29,7 +28,7 @@ public class MarcRecordWriter implements RecordWriter {
     @Override
     public void writeDataField(RecordDataField recordDataField) {
         DataField dataField = FACTORY.newDataField(recordDataField.getTag(), recordDataField.getIndicator1(), recordDataField.getIndicator2());
-        for (Map.Entry<Character, String> subfield : recordDataField.getSubfields().entrySet()) {
+        for (Map.Entry<Character, String> subfield : recordDataField.getSubFields()) {
             Character subfieldCode = subfield.getKey();
             String subfieldData = subfield.getValue();
             dataField.addSubfield(FACTORY.newSubfield(subfieldCode, subfieldData));

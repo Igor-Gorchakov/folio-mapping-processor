@@ -1,6 +1,7 @@
 package org.folio.writer.fields;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class RecordDataField {
     private String tag;
     private char indicator1 = ' ';
     private char indicator2 = ' ';
-    private List<Map.Entry<Character, String>> subFields;
+    private List<Map.Entry<Character, String>> subFields = new ArrayList<>();
 
     public RecordDataField(String tag) {
         this.tag = tag;

@@ -10,15 +10,15 @@ public class RecordControlField {
         this.data = data;
     }
 
-    public void setData(String data) {
-        this.data = data;
-    }
-
     public String getTag() {
         return tag;
     }
 
     public String getData() {
         return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

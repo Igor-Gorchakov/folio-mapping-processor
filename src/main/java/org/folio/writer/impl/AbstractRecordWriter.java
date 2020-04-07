@@ -24,7 +24,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
         if (STRING.equals(simpleValue.getSubType())) {
             StringValue stringValue = (StringValue) simpleValue;
             if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
-                RecordDataField recordDataField = buildDataField(tag, Collections.singletonList(stringValue));
+                RecordDataField recordDataField = buildDataFieldForStringValues(tag, Collections.singletonList(stringValue));
                 writeDataField(recordDataField);
             } else {
                 RecordControlField recordControlField = new RecordControlField(tag, stringValue.getValue());
@@ -33,8 +33,8 @@ public abstract class AbstractRecordWriter implements RecordWriter {
         } else if (LIST_OF_STRING.equals(simpleValue.getSubType())) {
             ListValue listValue = (ListValue) simpleValue;
             if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
-//                RecordDataField recordDataField = buildDataField(tag, listValue);
-//                writeDataField(recordDataField);
+                RecordDataField recordDataField = buildDataFieldForListOfStrings(listValue);
+                writeDataField(recordDataField);
             } else {
                 for (String value : listValue.getValue()) {
                     RecordControlField recordControlField = new RecordControlField(tag, value);
@@ -48,7 +48,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
     public void write(CompositeValue compositeValue) {
         String tag = compositeValue.getValue().get(0).get(0).getCondition().getTag();
         for (List<StringValue> entry : compositeValue.getValue()) {
-            RecordDataField recordDataField = buildDataField(tag, entry);
+            RecordDataField recordDataField = buildDataFieldForStringValues(tag, entry);
             writeDataField(recordDataField);
         }
     }
@@ -57,7 +57,28 @@ public abstract class AbstractRecordWriter implements RecordWriter {
 
     protected abstract void writeDataField(RecordDataField recordDataField);
 
-    private RecordDataField buildDataField(String tag, List<StringValue> entry) {
+    private RecordDataField buildDataFieldForListOfStrings(ListValue listValue) {
+        Condition condition = listValue.getCondition();
+        String tag = listValue.getCondition().getTag();
+        RecordDataField field = new RecordDataField(tag);
+        for (String stringValue : listValue.getValue()) {
+            if (listValue.getCondition().isSubfieldCondition()) {
+                char subFieldCode = condition.getSubfield().charAt(0);
+                String subFieldData = stringValue;
+                field.addSubField(subFieldCode, subFieldData);
+            } else if (condition.isIndicatorCondition()) {
+                char indicator = stringValue.charAt(0);
+                if ("1".equals(condition.getIndicator())) {
+                    field.setIndicator1(indicator);
+                } else if ("2".equals(condition.getIndicator())) {
+                    field.setIndicator2(indicator);
+                }
+            }
+        }
+        return field;
+    }
+
+    private RecordDataField buildDataFieldForStringValues(String tag, List<StringValue> entry) {
         RecordDataField field = new RecordDataField(tag);
         for (StringValue stringValue : entry) {
             Condition condition = stringValue.getCondition();

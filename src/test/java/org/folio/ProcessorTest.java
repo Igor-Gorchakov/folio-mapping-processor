@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.folio.processor.RuleProcessor;
-import org.folio.reader.Reader;
 import org.folio.reader.JPathSyntaxReader;
+import org.folio.reader.Reader;
 import org.folio.writer.RecordWriter;
 import org.folio.writer.impl.JsonRecordWriter;
 import org.folio.writer.impl.MarcRecordWriter;
@@ -20,14 +20,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @RunWith(JUnit4.class)
-public class JPathSyntaxRuleTest {
+public class ProcessorTest {
     private static JsonObject entity;
     private static JsonArray rules;
 
     @BeforeClass
     public static void setup() throws IOException {
         entity = new JsonObject(IOUtils.toString(new FileReader("src/test/resources/given_inventory_instance.json")));
-        rules = new JsonArray(IOUtils.toString(new FileReader("src/test/resources/rulesNew/rules_jpath-syntax.json")));
+        rules = new JsonArray(IOUtils.toString(new FileReader("src/test/resources/rules/rules.json")));
     }
 
     @Test
