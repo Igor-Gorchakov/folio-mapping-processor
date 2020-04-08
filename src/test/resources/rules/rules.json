@@ -43,17 +43,22 @@
   },
   {
     "tag": "264",
-    "description": "Contributor",
+    "description":"Publications",
     "conditions": [
       {
         "description": "Place of publication",
-        "from": "$.contributors[*].name",
+        "from": "$.publication[*].place",
         "subfield": "a"
       },
       {
         "description": "Publisher",
-        "from": "$.contributors[*].contributorTypeText",
+        "from": "$.publication[*].publisher",
         "subfield": "b"
+      },
+      {
+        "description": "Publication date",
+        "from": "$.publication[*].dateOfPublication",
+        "subfield": "c"
       }
     ]
   },
