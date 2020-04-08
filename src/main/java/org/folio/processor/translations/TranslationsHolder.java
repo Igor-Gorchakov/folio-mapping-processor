@@ -4,12 +4,6 @@ import io.vertx.core.json.JsonObject;
 import org.folio.processor.rule.Translation;
 
 public enum TranslationsHolder implements TranslationFunction {
-    STUB() {
-        @Override
-        public String apply(String value, JsonObject parameters, Settings settings) {
-            return value + "-STUB";
-        }
-    },
     SET_ALTERNATIVE_TITLE_TYPE() {
         @Override
         public String apply(String value, JsonObject parameters, Settings settings) {

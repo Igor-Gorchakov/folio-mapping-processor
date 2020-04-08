@@ -8,11 +8,7 @@ import org.folio.processor.translations.Settings;
 import org.folio.processor.translations.TranslationFunction;
 import org.folio.processor.translations.TranslationsHolder;
 import org.folio.reader.Reader;
-import org.folio.reader.values.CompositeValue;
-import org.folio.reader.values.ListValue;
-import org.folio.reader.values.RuleValue;
-import org.folio.reader.values.SimpleValue;
-import org.folio.reader.values.StringValue;
+import org.folio.reader.values.*;
 import org.folio.writer.RecordWriter;
 
 import java.util.ArrayList;
