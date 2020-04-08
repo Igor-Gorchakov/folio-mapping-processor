@@ -30,7 +30,7 @@
   },
   {
     "tag": "247",
-    "description": "Alternative Title type",
+    "description": "Alternative Titles",
     "conditions": [
       {
         "from": "$.alternativeTitles[*].alternativeTitleTypeId",
@@ -59,7 +59,7 @@
   },
   {
     "tag": "856",
-    "description": "electronicAccess",
+    "description": "Electronic access",
     "conditions": [
       {
         "description": "Place of publication",
@@ -77,6 +77,16 @@
         "description": "Link text",
         "from": "$.electronicAccess[*].linkText",
         "subfield": "y"
+      }
+    ]
+  },
+  {
+    "tag": "00x",
+    "description": "Missing field just for the testing purposes",
+    "conditions": [
+      {
+        "description": "Missing field just for the testing purposes",
+        "from": "$.missing"
       }
     ]
   }
