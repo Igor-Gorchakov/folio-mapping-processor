@@ -30,7 +30,7 @@
   },
   {
     "tag": "247",
-    "description": "Alternative Title type",
+    "description": "Alternative Titles",
     "conditions": [
       {
         "from": "$.alternativeTitles[*].alternativeTitleTypeId",
@@ -43,23 +43,28 @@
   },
   {
     "tag": "264",
-    "description": "Contributor",
+    "description": "Publications",
     "conditions": [
       {
         "description": "Place of publication",
-        "from": "$.contributors[*].name",
+        "from": "$.publication[*].place",
         "subfield": "a"
       },
       {
         "description": "Publisher",
-        "from": "$.contributors[*].contributorTypeText",
+        "from": "$.publication[*].publisher",
         "subfield": "b"
+      },
+      {
+        "description": "Publication date",
+        "from": "$.publication[*].dateOfPublication",
+        "subfield": "c"
       }
     ]
   },
   {
     "tag": "856",
-    "description": "electronicAccess",
+    "description": "Electronic access",
     "conditions": [
       {
         "description": "Place of publication",
@@ -77,6 +82,16 @@
         "description": "Link text",
         "from": "$.electronicAccess[*].linkText",
         "subfield": "y"
+      }
+    ]
+  },
+  {
+    "tag": "00x",
+    "description": "Missing field just for the testing purposes",
+    "conditions": [
+      {
+        "description": "Missing field just for the testing purposes",
+        "from": "$.missing"
       }
     ]
   }

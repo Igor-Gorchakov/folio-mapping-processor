@@ -38,38 +38,6 @@
       "identifierTypeId": "fe19bae4-da28-472b-be90-d442e2428ead"
     }
   ],
-  "contributors": [
-    {
-      "name": "name1",
-      "contributorTypeText": "contributorTypeText1",
-      "contributorNameTypeId": "contributorNameTypeId1",
-      "primary": false
-    },
-    {
-      "name": "name2",
-      "contributorTypeText": "contributorTypeText2",
-      "contributorNameTypeId": "contributorNameTypeId2",
-      "primary": false
-    },
-    {
-      "name": "name3",
-      "contributorTypeText": "contributorTypeText3",
-      "contributorNameTypeId": "contributorNameTypeId3",
-      "primary": false
-    },
-    {
-      "name": "name4",
-      "contributorTypeText": "contributorTypeText4",
-      "contributorNameTypeId": "contributorNameTypeId4",
-      "primary": false
-    },
-    {
-      "name": "name5",
-      "contributorTypeText": "contributorTypeText5",
-      "contributorNameTypeId": "contributorNameTypeId5",
-      "primary": false
-    }
-  ],
   "subjects": [
     "Church history--Periodicals",
     "Church history",
@@ -90,6 +58,12 @@
       "publisher": "Third Man Records ; Revenant Records",
       "place": "Nashville, Tennessee ; Austin Texas",
       "dateOfPublication": "[2013]",
+      "role": "Publication"
+    },
+    {
+      "publisher": "AM, Adam Matthew",
+      "place": "Marlborough, Wiltshire, UK",
+      "dateOfPublication": "[2010?]-",
       "role": "Publication"
     }
   ],

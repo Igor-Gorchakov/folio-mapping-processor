@@ -8,11 +8,7 @@ import io.vertx.core.json.JsonObject;
 import net.minidev.json.JSONArray;
 import org.folio.processor.rule.Condition;
 import org.folio.processor.rule.Rule;
-import org.folio.reader.values.CompositeValue;
-import org.folio.reader.values.MissingValue;
-import org.folio.reader.values.RuleValue;
-import org.folio.reader.values.SimpleValue;
-import org.folio.reader.values.StringValue;
+import org.folio.reader.values.*;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -21,13 +17,15 @@ import java.util.Map;
 
 import static java.lang.String.format;
 
-public class JPathSyntaxReader extends AbstractReader {
+public class JPathSyntaxEntityReader extends AbstractEntityReader {
     private final DocumentContext documentContext;
 
-    public JPathSyntaxReader(JsonObject entity) {
+    public JPathSyntaxEntityReader(JsonObject entity) {
         this.documentContext = JsonPath.parse(
                 entity.encode(),
-                Configuration.defaultConfiguration().addOptions(Option.SUPPRESS_EXCEPTIONS)
+                Configuration.defaultConfiguration()
+                        .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL)
+                        .addOptions(Option.SUPPRESS_EXCEPTIONS)
         );
     }
 
