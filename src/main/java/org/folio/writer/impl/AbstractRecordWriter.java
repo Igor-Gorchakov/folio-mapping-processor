@@ -85,7 +85,9 @@ public abstract class AbstractRecordWriter implements RecordWriter {
             if (condition.isSubfieldCondition()) {
                 char subFieldCode = condition.getSubfield().charAt(0);
                 String subFieldData = stringValue.getValue();
-                field.addSubField(subFieldCode, subFieldData);
+                if (subFieldData != null) {
+                    field.addSubField(subFieldCode, subFieldData);
+                }
             } else if (condition.isIndicatorCondition()) {
                 char indicator = stringValue.getValue().charAt(0);
                 if ("1".equals(condition.getIndicator())) {

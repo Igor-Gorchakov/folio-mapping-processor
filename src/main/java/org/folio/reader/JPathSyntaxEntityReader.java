@@ -17,13 +17,15 @@ import java.util.Map;
 
 import static java.lang.String.format;
 
-public class JPathSyntaxReader extends AbstractReader {
+public class JPathSyntaxEntityReader extends AbstractEntityReader {
     private final DocumentContext documentContext;
 
-    public JPathSyntaxReader(JsonObject entity) {
+    public JPathSyntaxEntityReader(JsonObject entity) {
         this.documentContext = JsonPath.parse(
                 entity.encode(),
-                Configuration.defaultConfiguration().addOptions(Option.SUPPRESS_EXCEPTIONS)
+                Configuration.defaultConfiguration()
+                        .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL)
+                        .addOptions(Option.SUPPRESS_EXCEPTIONS)
         );
     }
 

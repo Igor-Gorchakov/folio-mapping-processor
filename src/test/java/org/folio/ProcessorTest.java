@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.folio.processor.RuleProcessor;
-import org.folio.reader.JPathSyntaxReader;
-import org.folio.reader.Reader;
+import org.folio.reader.EntityReader;
+import org.folio.reader.JPathSyntaxEntityReader;
 import org.folio.writer.RecordWriter;
 import org.folio.writer.impl.JsonRecordWriter;
 import org.folio.writer.impl.MarcRecordWriter;
@@ -34,7 +34,7 @@ public class ProcessorTest {
     public void shouldMapEntityTo_MarcRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        Reader reader = new JPathSyntaxReader(entity);
+        EntityReader reader = new JPathSyntaxEntityReader(entity);
         RecordWriter writer = new MarcRecordWriter();
         // when
         String actualMarcRecord = ruleProcessor.process(reader, writer);
@@ -47,7 +47,7 @@ public class ProcessorTest {
     public void shouldMapEntityTo_JsonRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        Reader reader = new JPathSyntaxReader(entity);
+        EntityReader reader = new JPathSyntaxEntityReader(entity);
         RecordWriter writer = new JsonRecordWriter();
         // when
         String actualJsonRecord = ruleProcessor.process(reader, writer);
@@ -60,7 +60,7 @@ public class ProcessorTest {
     public void shouldMapEntityTo_XmlRecord() throws IOException {
         // given
         RuleProcessor ruleProcessor = new RuleProcessor(rules);
-        Reader reader = new JPathSyntaxReader(entity);
+        EntityReader reader = new JPathSyntaxEntityReader(entity);
         RecordWriter writer = new XmlRecordWriter();
         // when
         String actualXmlRecord = ruleProcessor.process(reader, writer);

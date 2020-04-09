@@ -7,8 +7,12 @@ import org.folio.processor.rule.Translation;
 import org.folio.processor.translations.Settings;
 import org.folio.processor.translations.TranslationFunction;
 import org.folio.processor.translations.TranslationsHolder;
-import org.folio.reader.Reader;
-import org.folio.reader.values.*;
+import org.folio.reader.EntityReader;
+import org.folio.reader.values.CompositeValue;
+import org.folio.reader.values.ListValue;
+import org.folio.reader.values.RuleValue;
+import org.folio.reader.values.SimpleValue;
+import org.folio.reader.values.StringValue;
 import org.folio.writer.RecordWriter;
 
 import java.util.ArrayList;
@@ -26,11 +30,11 @@ public final class RuleProcessor {
         this.rules = rules;
     }
 
-    public String process(Reader reader, RecordWriter writer) {
+    public String process(EntityReader entityReader, RecordWriter writer) {
         Iterator ruleIterator = rules.iterator();
         while (ruleIterator.hasNext()) {
             Rule rule = new Rule(JsonObject.mapFrom(ruleIterator.next()));
-            RuleValue ruleValue = reader.read(rule);
+            RuleValue ruleValue = entityReader.read(rule);
             switch (ruleValue.getType()) {
                 case SIMPLE:
                     SimpleValue value = (SimpleValue) ruleValue;
