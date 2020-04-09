@@ -5,7 +5,7 @@ import org.folio.processor.rule.Rule;
 import org.folio.reader.values.MissingValue;
 import org.folio.reader.values.RuleValue;
 
-public abstract class AbstractReader implements Reader {
+public abstract class AbstractReader implements EntityReader {
 
     @Override
     public RuleValue read(Rule rule) {

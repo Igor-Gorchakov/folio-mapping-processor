@@ -20,20 +20,20 @@ public class MarcRecordWriter extends AbstractRecordWriter {
     protected final Record RECORD = FACTORY.newRecord();
 
     @Override
-    public void writeControlField(RecordControlField field) {
-        ControlField controlField = FACTORY.newControlField(field.getTag(), field.getData());
-        RECORD.addVariableField(controlField);
+    public void writeControlField(RecordControlField recordControlField) {
+        ControlField marcControlField = FACTORY.newControlField(recordControlField.getTag(), recordControlField.getData());
+        RECORD.addVariableField(marcControlField);
     }
 
     @Override
     public void writeDataField(RecordDataField recordDataField) {
-        DataField dataField = FACTORY.newDataField(recordDataField.getTag(), recordDataField.getIndicator1(), recordDataField.getIndicator2());
+        DataField marcDataField = FACTORY.newDataField(recordDataField.getTag(), recordDataField.getIndicator1(), recordDataField.getIndicator2());
         for (Map.Entry<Character, String> subfield : recordDataField.getSubFields()) {
             Character subfieldCode = subfield.getKey();
             String subfieldData = subfield.getValue();
-            dataField.addSubfield(FACTORY.newSubfield(subfieldCode, subfieldData));
+            marcDataField.addSubfield(FACTORY.newSubfield(subfieldCode, subfieldData));
         }
-        RECORD.addVariableField(dataField);
+        RECORD.addVariableField(marcDataField);
     }
 
     @Override
