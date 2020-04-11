@@ -25,6 +25,24 @@
       {
         "from": "$.title",
         "subfield": "a"
+      },
+      {
+        "indicator": "1",
+        "translation": {
+          "function": "set_custom_value",
+          "parameters": {
+            "value": "0"
+          }
+        }
+      },
+      {
+        "indicator": "2",
+        "translation": {
+          "function": "set_custom_value",
+          "parameters": {
+            "value": "0"
+          }
+        }
       }
     ]
   },
@@ -37,6 +55,24 @@
         "subfield": "a",
         "translation": {
           "function": "set_alternative_title_type"
+        }
+      },
+      {
+        "indicator": "1",
+        "translation": {
+          "function": "set_custom_value",
+          "parameters": {
+            "value": "0"
+          }
+        }
+      },
+      {
+        "indicator": "2",
+        "translation": {
+          "function": "set_custom_value",
+          "parameters": {
+            "value": "0"
+          }
         }
       }
     ]
@@ -59,29 +95,15 @@
         "description": "Publication date",
         "from": "$.publication[*].dateOfPublication",
         "subfield": "c"
-      }
-    ]
-  },
-  {
-    "tag": "856",
-    "description": "Electronic access",
-    "dataSource": [
-      {
-        "description": "Place of publication",
-        "from": "$.electronicAccess[*].relationshipId",
-        "indicator": "2",
-        "translation": {
-          "function": "set_electronic_access_indicator",
-          "parameter": {
-            "from": "Resource",
-            "value": 0
-          }
-        }
       },
       {
-        "description": "Link text",
-        "from": "$.electronicAccess[*].linkText",
-        "subfield": "y"
+        "indicator": "2",
+        "translation": {
+          "function": "set_custom_value",
+          "parameters": {
+            "value": "1"
+          }
+        }
       }
     ]
   },

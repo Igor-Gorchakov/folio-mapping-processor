@@ -10,10 +10,10 @@ public enum TranslationsHolder implements TranslationFunction {
             return value;
         }
     },
-    SET_ELECTRONIC_ACCESS_INDICATOR() {
+    SET_CUSTOM_VALUE() {
         @Override
         public String apply(String value, JsonObject parameters, Settings settings) {
-            return "0";
+            return parameters.getString("value");
         }
     };
 

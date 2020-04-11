@@ -33,12 +33,18 @@ public class JPathSyntaxEntityReader extends AbstractEntityReader {
     protected RuleValue readCompositeValue(Rule rule) {
         List<SimpleEntry<DataSource, JSONArray>> matrix = new ArrayList<>();
         for (DataSource dataSource : rule.getDataSources()) {
-            String path = dataSource.getFrom();
-            if (JsonPath.isPathDefinite(path)) {
-                throw new IllegalStateException(format("The given mapping is intended to map only array of string: %s", dataSource));
+            if (dataSource.getFrom() == null) {
+                matrix.add(new SimpleEntry<>(dataSource, new JSONArray()));
+            } else {
+                Object objectValue = this.documentContext.read(dataSource.getFrom());
+                if (objectValue instanceof String) {
+                    String stringValue = (String) objectValue;
+                    matrix.add(new SimpleEntry<>(dataSource, new JSONArray().appendElement(stringValue)));
+                } else if (objectValue instanceof JSONArray) {
+                    JSONArray value = (JSONArray) objectValue;
+                    matrix.add(new SimpleEntry<>(dataSource, value));
+                }
             }
-            JSONArray array = this.documentContext.read(dataSource.getFrom(), JSONArray.class);
-            matrix.add(new SimpleEntry<>(dataSource, array));
         }
         int matrixLength = matrix.size();
         int matrixWidth = matrix.get(0).getValue().size();
