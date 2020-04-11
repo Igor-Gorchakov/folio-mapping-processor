@@ -14,7 +14,7 @@ public class Rule {
         String tag = rule.getString("tag");
         JsonArray mapping = rule.getJsonArray("dataSource");
         if (mapping.isEmpty()) {
-            throw new IllegalArgumentException(String.format("Given rule does not have condition, rule : %s", rule));
+            throw new IllegalArgumentException(String.format("Given rule does not have dataSource, rule : %s", rule));
         } else {
             mapping.forEach(item -> this.dataSources.add(new DataSource(tag, (JsonObject) item)));
         }
