@@ -19,11 +19,4 @@ public class CompositeValue implements RuleValue<List<List<StringValue>>> {
     public boolean addEntry(List<StringValue> entry) {
         return this.value.add(entry);
     }
-
-    @Override
-    public String toString() {
-        return "CompositeValue{" +
-                "value=" + value +
-                '}';
-    }
 }

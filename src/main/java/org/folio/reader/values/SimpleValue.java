@@ -1,26 +1,26 @@
 package org.folio.reader.values;
 
-import org.folio.processor.rule.Condition;
+import org.folio.processor.rule.DataSource;
 
 import java.util.List;
 
 public abstract class SimpleValue<T> implements RuleValue<T> {
-    protected Condition condition;
+    protected DataSource dataSource;
 
-    public static StringValue of(String string, Condition condition) {
-        return new StringValue(string, condition);
+    public static StringValue of(String string, DataSource dataSource) {
+        return new StringValue(string, dataSource);
     }
 
-    public static StringValue ofNullable(Condition condition) {
-        return new StringValue(null, condition);
+    public static StringValue ofNullable(DataSource dataSource) {
+        return new StringValue(null, dataSource);
     }
 
-    public static ListValue of(List<String> listOfStrings, Condition condition) {
-        return new ListValue(listOfStrings, condition);
+    public static ListValue of(List<String> listOfStrings, DataSource dataSource) {
+        return new ListValue(listOfStrings, dataSource);
     }
 
-    public Condition getCondition() {
-        return this.condition;
+    public DataSource getDataSource() {
+        return this.dataSource;
     }
 
     @Override

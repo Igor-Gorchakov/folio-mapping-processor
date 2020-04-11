@@ -1,6 +1,6 @@
 package org.folio.writer.impl;
 
-import org.folio.processor.rule.Condition;
+import org.folio.processor.rule.DataSource;
 import org.folio.reader.values.CompositeValue;
 import org.folio.reader.values.ListValue;
 import org.folio.reader.values.SimpleValue;
@@ -19,11 +19,11 @@ public abstract class AbstractRecordWriter implements RecordWriter {
 
     @Override
     public void write(SimpleValue simpleValue) {
-        Condition condition = simpleValue.getCondition();
-        String tag = condition.getTag();
+        DataSource dataSource = simpleValue.getDataSource();
+        String tag = dataSource.getTag();
         if (STRING.equals(simpleValue.getSubType())) {
             StringValue stringValue = (StringValue) simpleValue;
-            if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
+            if (dataSource.isSubFieldCondition() || dataSource.isIndicatorCondition()) {
                 RecordDataField recordDataField = buildDataFieldForStringValues(tag, Collections.singletonList(stringValue));
                 writeDataField(recordDataField);
             } else {
@@ -32,7 +32,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
             }
         } else if (LIST_OF_STRING.equals(simpleValue.getSubType())) {
             ListValue listValue = (ListValue) simpleValue;
-            if (condition.isSubfieldCondition() || condition.isIndicatorCondition()) {
+            if (dataSource.isSubFieldCondition() || dataSource.isIndicatorCondition()) {
                 RecordDataField recordDataField = buildDataFieldForListOfStrings(listValue);
                 writeDataField(recordDataField);
             } else {
@@ -46,7 +46,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
 
     @Override
     public void write(CompositeValue compositeValue) {
-        String tag = compositeValue.getValue().get(0).get(0).getCondition().getTag();
+        String tag = compositeValue.getValue().get(0).get(0).getDataSource().getTag();
         for (List<StringValue> entry : compositeValue.getValue()) {
             RecordDataField recordDataField = buildDataFieldForStringValues(tag, entry);
             writeDataField(recordDataField);
@@ -58,19 +58,19 @@ public abstract class AbstractRecordWriter implements RecordWriter {
     protected abstract void writeDataField(RecordDataField recordDataField);
 
     private RecordDataField buildDataFieldForListOfStrings(ListValue listValue) {
-        Condition condition = listValue.getCondition();
-        String tag = listValue.getCondition().getTag();
+        DataSource dataSource = listValue.getDataSource();
+        String tag = listValue.getDataSource().getTag();
         RecordDataField field = new RecordDataField(tag);
         for (String stringValue : listValue.getValue()) {
-            if (listValue.getCondition().isSubfieldCondition()) {
-                char subFieldCode = condition.getSubfield().charAt(0);
+            if (listValue.getDataSource().isSubFieldCondition()) {
+                char subFieldCode = dataSource.getSubField().charAt(0);
                 String subFieldData = stringValue;
                 field.addSubField(subFieldCode, subFieldData);
-            } else if (condition.isIndicatorCondition()) {
+            } else if (dataSource.isIndicatorCondition()) {
                 char indicator = stringValue.charAt(0);
-                if ("1".equals(condition.getIndicator())) {
+                if ("1".equals(dataSource.getIndicator())) {
                     field.setIndicator1(indicator);
-                } else if ("2".equals(condition.getIndicator())) {
+                } else if ("2".equals(dataSource.getIndicator())) {
                     field.setIndicator2(indicator);
                 }
             }
@@ -81,18 +81,18 @@ public abstract class AbstractRecordWriter implements RecordWriter {
     private RecordDataField buildDataFieldForStringValues(String tag, List<StringValue> entry) {
         RecordDataField field = new RecordDataField(tag);
         for (StringValue stringValue : entry) {
-            Condition condition = stringValue.getCondition();
-            if (condition.isSubfieldCondition()) {
-                char subFieldCode = condition.getSubfield().charAt(0);
+            DataSource dataSource = stringValue.getDataSource();
+            if (dataSource.isSubFieldCondition()) {
+                char subFieldCode = dataSource.getSubField().charAt(0);
                 String subFieldData = stringValue.getValue();
                 if (subFieldData != null) {
                     field.addSubField(subFieldCode, subFieldData);
                 }
-            } else if (condition.isIndicatorCondition()) {
+            } else if (dataSource.isIndicatorCondition()) {
                 char indicator = stringValue.getValue().charAt(0);
-                if ("1".equals(condition.getIndicator())) {
+                if ("1".equals(dataSource.getIndicator())) {
                     field.setIndicator1(indicator);
-                } else if ("2".equals(condition.getIndicator())) {
+                } else if ("2".equals(dataSource.getIndicator())) {
                     field.setIndicator2(indicator);
                 }
             }

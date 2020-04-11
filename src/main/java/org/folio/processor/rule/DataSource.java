@@ -2,18 +2,18 @@ package org.folio.processor.rule;
 
 import io.vertx.core.json.JsonObject;
 
-public class Condition {
+public class DataSource {
 
     private String tag;
-    private String subfield;
+    private String subField;
     private String indicator;
     private String from;
     private Translation translation;
 
-    public Condition(String tag, JsonObject condition) {
+    public DataSource(String tag, JsonObject condition) {
         this.tag = tag;
         if (condition.containsKey("subfield")) {
-            this.subfield = condition.getString("subfield");
+            this.subField = condition.getString("subfield");
         } else if (condition.containsKey("indicator")) {
             this.indicator = condition.getString("indicator");
         }
@@ -27,8 +27,8 @@ public class Condition {
         return this.tag;
     }
 
-    public String getSubfield() {
-        return subfield;
+    public String getSubField() {
+        return subField;
     }
 
     public String getIndicator() {
@@ -43,8 +43,8 @@ public class Condition {
         return translation;
     }
 
-    public boolean isSubfieldCondition() {
-        return this.subfield != null;
+    public boolean isSubFieldCondition() {
+        return this.subField != null;
     }
 
     public boolean isIndicatorCondition() {

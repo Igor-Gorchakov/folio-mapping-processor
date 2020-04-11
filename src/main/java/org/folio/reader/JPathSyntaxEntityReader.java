@@ -6,7 +6,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import io.vertx.core.json.JsonObject;
 import net.minidev.json.JSONArray;
-import org.folio.processor.rule.Condition;
+import org.folio.processor.rule.DataSource;
 import org.folio.processor.rule.Rule;
 import org.folio.reader.values.*;
 
@@ -31,14 +31,14 @@ public class JPathSyntaxEntityReader extends AbstractEntityReader {
 
     @Override
     protected RuleValue readCompositeValue(Rule rule) {
-        List<SimpleEntry<Condition, JSONArray>> matrix = new ArrayList<>();
-        for (Condition condition : rule.getConditions()) {
-            String path = condition.getFrom();
+        List<SimpleEntry<DataSource, JSONArray>> matrix = new ArrayList<>();
+        for (DataSource dataSource : rule.getDataSources()) {
+            String path = dataSource.getFrom();
             if (JsonPath.isPathDefinite(path)) {
-                throw new IllegalStateException(format("The given mapping is intended to map only array of string: %s", condition));
+                throw new IllegalStateException(format("The given mapping is intended to map only array of string: %s", dataSource));
             }
-            JSONArray array = this.documentContext.read(condition.getFrom(), JSONArray.class);
-            matrix.add(new SimpleEntry<>(condition, array));
+            JSONArray array = this.documentContext.read(dataSource.getFrom(), JSONArray.class);
+            matrix.add(new SimpleEntry<>(dataSource, array));
         }
         int matrixLength = matrix.size();
         int matrixWidth = matrix.get(0).getValue().size();
@@ -49,7 +49,7 @@ public class JPathSyntaxEntityReader extends AbstractEntityReader {
             for (int widthIndex = 0; widthIndex < matrixWidth; widthIndex++) {
                 List<StringValue> entry = new ArrayList<>();
                 for (int lengthIndex = 0; lengthIndex < matrixLength; lengthIndex++) {
-                    SimpleEntry<Condition, JSONArray> field = matrix.get(lengthIndex);
+                    SimpleEntry<DataSource, JSONArray> field = matrix.get(lengthIndex);
                     JSONArray jsonArray = field.getValue();
                     if (jsonArray.isEmpty()) {
                         entry.add(SimpleValue.ofNullable(field.getKey()));
@@ -64,12 +64,12 @@ public class JPathSyntaxEntityReader extends AbstractEntityReader {
     }
 
     @Override
-    protected RuleValue readSimpleValue(Condition condition) {
-        String path = condition.getFrom();
+    protected RuleValue readSimpleValue(DataSource dataSource) {
+        String path = dataSource.getFrom();
         Object readValue = documentContext.read(path);
         if (readValue instanceof String) {
             String string = (String) readValue;
-            return SimpleValue.of(string, condition);
+            return SimpleValue.of(string, dataSource);
         } else if (readValue instanceof JSONArray) {
             JSONArray array = (JSONArray) readValue;
             if (array.isEmpty()) {
@@ -78,12 +78,12 @@ public class JPathSyntaxEntityReader extends AbstractEntityReader {
             if (array.get(0) instanceof String) {
                 List<String> listOfStrings = new ArrayList<>();
                 array.forEach(arrayItem -> listOfStrings.add(arrayItem.toString()));
-                return SimpleValue.of(listOfStrings, condition);
+                return SimpleValue.of(listOfStrings, dataSource);
             } else if (array.get(0) instanceof Map) {
-                throw new IllegalArgumentException(format("Reading a list of complex fields is not supported, mapping: %s", condition));
+                throw new IllegalArgumentException(format("Reading a list of complex fields is not supported, data source: %s", dataSource));
             }
         } else if (readValue instanceof Map) {
-            throw new IllegalArgumentException(format("Reading a complex field is not supported, mapping: %s", condition));
+            throw new IllegalArgumentException(format("Reading a complex field is not supported, data source: %s", dataSource));
         }
         return MissingValue.getInstance();
     }

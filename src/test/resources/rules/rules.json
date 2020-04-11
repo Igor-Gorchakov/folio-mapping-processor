@@ -2,7 +2,7 @@
   {
     "tag": "001",
     "description": "The human readable ID",
-    "conditions": [
+    "dataSource": [
       {
         "from": "$.hrid"
       }
@@ -11,7 +11,7 @@
   {
     "tag": "041",
     "description": "Languages",
-    "conditions": [
+    "dataSource": [
       {
         "from": "$.languages",
         "subfield": "a"
@@ -21,7 +21,7 @@
   {
     "tag": "245",
     "description": "Title",
-    "conditions": [
+    "dataSource": [
       {
         "from": "$.title",
         "subfield": "a"
@@ -31,7 +31,7 @@
   {
     "tag": "247",
     "description": "Alternative Titles",
-    "conditions": [
+    "dataSource": [
       {
         "from": "$.alternativeTitles[*].alternativeTitleTypeId",
         "subfield": "a",
@@ -44,7 +44,7 @@
   {
     "tag": "264",
     "description": "Publications",
-    "conditions": [
+    "dataSource": [
       {
         "description": "Place of publication",
         "from": "$.publication[*].place",
@@ -65,7 +65,7 @@
   {
     "tag": "856",
     "description": "Electronic access",
-    "conditions": [
+    "dataSource": [
       {
         "description": "Place of publication",
         "from": "$.electronicAccess[*].relationshipId",
@@ -88,7 +88,7 @@
   {
     "tag": "00x",
     "description": "Missing field just for the testing purposes",
-    "conditions": [
+    "dataSource": [
       {
         "description": "Missing field just for the testing purposes",
         "from": "$.missing"

@@ -37,9 +37,9 @@ public final class RuleProcessor {
             RuleValue ruleValue = reader.read(rule);
             switch (ruleValue.getType()) {
                 case SIMPLE:
-                    SimpleValue value = (SimpleValue) ruleValue;
-                    translate(value);
-                    writer.write(value);
+                    SimpleValue simpleValue = (SimpleValue) ruleValue;
+                    translate(simpleValue);
+                    writer.write(simpleValue);
                     break;
                 case COMPOSITE:
                     CompositeValue compositeValue = (CompositeValue) ruleValue;
@@ -54,7 +54,7 @@ public final class RuleProcessor {
     }
 
     private void translate(SimpleValue simpleValue) {
-        Translation translation = simpleValue.getCondition().getTranslation();
+        Translation translation = simpleValue.getDataSource().getTranslation();
         if (translation != null) {
             TranslationFunction translationFunction = TranslationsHolder.lookup(translation);
             if (STRING.equals(simpleValue.getSubType())) {
@@ -78,7 +78,7 @@ public final class RuleProcessor {
         List<List<StringValue>> readValues = compositeValue.getValue();
         for (List<StringValue> readEntry : readValues) {
             readEntry.forEach(stringValue -> {
-                Translation translation = stringValue.getCondition().getTranslation();
+                Translation translation = stringValue.getDataSource().getTranslation();
                 if (translation != null) {
                     TranslationFunction translationFunction = TranslationsHolder.lookup(translation);
                     String readValue = stringValue.getValue();

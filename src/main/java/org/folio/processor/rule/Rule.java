@@ -8,26 +8,19 @@ import java.util.List;
 
 
 public class Rule {
-    private List<Condition> conditions = new ArrayList<>();
+    private List<DataSource> dataSources = new ArrayList<>();
 
     public Rule(JsonObject rule) {
         String tag = rule.getString("tag");
-        JsonArray mapping = rule.getJsonArray("conditions");
+        JsonArray mapping = rule.getJsonArray("dataSource");
         if (mapping.isEmpty()) {
             throw new IllegalArgumentException(String.format("Given rule does not have condition, rule : %s", rule));
         } else {
-            mapping.forEach(item -> this.conditions.add(new Condition(tag, (JsonObject) item)));
+            mapping.forEach(item -> this.dataSources.add(new DataSource(tag, (JsonObject) item)));
         }
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
-    @Override
-    public String toString() {
-        return "Rule{" +
-                "conditions=" + conditions +
-                '}';
+    public List<DataSource> getDataSources() {
+        return dataSources;
     }
 }

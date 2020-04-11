@@ -1,13 +1,13 @@
 package org.folio.reader.values;
 
-import org.folio.processor.rule.Condition;
+import org.folio.processor.rule.DataSource;
 
 public class StringValue extends SimpleValue<String> {
     private String value;
 
-    public StringValue(String value, Condition condition) {
+    public StringValue(String value, DataSource dataSource) {
         this.value = value;
-        this.condition = condition;
+        this.dataSource = dataSource;
     }
 
     @Override

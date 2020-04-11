@@ -1,15 +1,15 @@
 package org.folio.reader.values;
 
-import org.folio.processor.rule.Condition;
+import org.folio.processor.rule.DataSource;
 
 import java.util.List;
 
 public class ListValue extends SimpleValue<List<String>> {
     private List<String> value;
 
-    public ListValue(List<String> list, Condition condition) {
+    public ListValue(List<String> list, DataSource dataSource) {
         this.value = list;
-        this.condition = condition;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -24,13 +24,5 @@ public class ListValue extends SimpleValue<List<String>> {
     @Override
     public SubType getSubType() {
         return SubType.LIST_OF_STRING;
-    }
-
-    @Override
-    public String toString() {
-        return "ListValue{" +
-                "value=" + value +
-                ", condition=" + condition +
-                '}';
     }
 }
