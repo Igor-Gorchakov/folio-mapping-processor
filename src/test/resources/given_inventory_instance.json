@@ -92,9 +92,5 @@
   ],
   "notes": [],
   "statisticalCodeIds": [],
-  "natureOfContentTermIds": [],
-  "testObject": {
-    "name": "objectName",
-    "surname": "objectSurname"
-  }
+  "natureOfContentTermIds": []
 }
