@@ -23,7 +23,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
         String tag = dataSource.getTag();
         if (STRING.equals(simpleValue.getSubType())) {
             StringValue stringValue = (StringValue) simpleValue;
-            if (dataSource.isSubFieldCondition() || dataSource.isIndicatorCondition()) {
+            if (dataSource.isSubFieldDataSource() || dataSource.isIndicatorDataSource()) {
                 RecordDataField recordDataField = buildDataFieldForStringValues(tag, Collections.singletonList(stringValue));
                 writeDataField(recordDataField);
             } else {
@@ -32,7 +32,7 @@ public abstract class AbstractRecordWriter implements RecordWriter {
             }
         } else if (LIST_OF_STRING.equals(simpleValue.getSubType())) {
             ListValue listValue = (ListValue) simpleValue;
-            if (dataSource.isSubFieldCondition() || dataSource.isIndicatorCondition()) {
+            if (dataSource.isSubFieldDataSource() || dataSource.isIndicatorDataSource()) {
                 RecordDataField recordDataField = buildDataFieldForListOfStrings(listValue);
                 writeDataField(recordDataField);
             } else {
@@ -62,11 +62,11 @@ public abstract class AbstractRecordWriter implements RecordWriter {
         String tag = listValue.getDataSource().getTag();
         RecordDataField field = new RecordDataField(tag);
         for (String stringValue : listValue.getValue()) {
-            if (listValue.getDataSource().isSubFieldCondition()) {
+            if (listValue.getDataSource().isSubFieldDataSource()) {
                 char subFieldCode = dataSource.getSubField().charAt(0);
                 String subFieldData = stringValue;
                 field.addSubField(subFieldCode, subFieldData);
-            } else if (dataSource.isIndicatorCondition()) {
+            } else if (dataSource.isIndicatorDataSource()) {
                 char indicator = stringValue.charAt(0);
                 if ("1".equals(dataSource.getIndicator())) {
                     field.setIndicator1(indicator);
@@ -82,13 +82,13 @@ public abstract class AbstractRecordWriter implements RecordWriter {
         RecordDataField field = new RecordDataField(tag);
         for (StringValue stringValue : entry) {
             DataSource dataSource = stringValue.getDataSource();
-            if (dataSource.isSubFieldCondition()) {
+            if (dataSource.isSubFieldDataSource()) {
                 char subFieldCode = dataSource.getSubField().charAt(0);
                 String subFieldData = stringValue.getValue();
                 if (subFieldData != null) {
                     field.addSubField(subFieldCode, subFieldData);
                 }
-            } else if (dataSource.isIndicatorCondition()) {
+            } else if (dataSource.isIndicatorDataSource()) {
                 char indicator = stringValue.getValue().charAt(0);
                 if ("1".equals(dataSource.getIndicator())) {
                     field.setIndicator1(indicator);
